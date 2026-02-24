@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,26 +40,55 @@
     margin-bottom: 48px;
   }
 
-  .header .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--green-light);
+  .logo {
+    width: 160px;
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+  }
+
+  .intro-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+    text-align: left;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .intro-card .hi {
+    font-size: 17px;
     font-weight: 500;
-    margin-bottom: 12px;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .intro-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .intro-card .signed {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 400;
   }
 
   .header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 600;
     color: var(--green);
     line-height: 1.2;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
 
-  .header p {
-    font-size: 15px;
+  .header .sub {
+    font-size: 14px;
     color: var(--muted);
     line-height: 1.6;
     font-weight: 300;
@@ -68,7 +98,7 @@
     width: 48px;
     height: 3px;
     background: var(--green-light);
-    margin: 20px auto 0;
+    margin: 16px auto 0;
     border-radius: 2px;
   }
 
@@ -175,7 +205,6 @@
     font-weight: 500;
   }
 
-  /* Multi-select checkbox style */
   .multi .option-dot {
     border-radius: 6px;
   }
@@ -304,10 +333,16 @@
 <div class="container">
 
   <div class="header">
-    <div class="eyebrow">Charity Link</div>
+    <img src="Charity-Link.webp" alt="Charity Link" class="logo" />
     <h1>Proud Business Supporter Club</h1>
-    <p>A few quick questions to help shape how we tell the PBS Club story.<br>Tap your answers — it'll only take 2 minutes.</p>
+    <p class="sub">A quick favour — 6 questions, 2 minutes, tap your answers</p>
     <div class="divider"></div>
+  </div>
+
+  <div class="intro-card">
+    <div class="hi">Hi Rachel 👋</div>
+    <p>You know I've been playing around with Claude — well, I've set it a challenge based on the PBS Club. Six quick questions, just tap your answers, and I'll send you a preview of what it comes up with.</p>
+    <div class="signed">— Adrian</div>
   </div>
 
   <div class="progress-bar">
@@ -474,7 +509,7 @@
   <div class="thank-you" id="thankyou">
     <div class="icon">💚</div>
     <h2>Thank you, Rachel!</h2>
-    <p>This is really helpful. Adrian will use your answers to shape what the PBS Club page could look like — and will send you a preview to react to.</p>
+    <p>Really helpful — Adrian will use your answers to shape what the PBS Club page could look like and will send you a preview to react to.</p>
 
     <div class="summary-box" id="summary">
       <h3>Your answers</h3>
