@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PBS Club – Quick Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2d6a4f;
+    --green-light: #40916c;
+    --green-pale: #d8f3dc;
+    --cream: #faf8f4;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e0d8;
+    --selected: #2d6a4f;
+    --selected-bg: #d8f3dc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--green);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .divider {
+    width: 48px;
+    height: 3px;
+    background: var(--green-light);
+    margin: 20px auto 0;
+    border-radius: 2px;
+  }
+
+  .question-block {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+  }
+
+  .question-block:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .question-number {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .question-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    background: white;
+  }
+
+  .option:hover {
+    border-color: var(--green-light);
+    background: #f0faf4;
+  }
+
+  .option.selected {
+    border-color: var(--selected);
+    background: var(--selected-bg);
+  }
+
+  .option-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .option.selected .option-dot {
+    border-color: var(--selected);
+    background: var(--selected);
+  }
+
+  .option.selected .option-dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .option-label {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .option.selected .option-label {
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  /* Multi-select checkbox style */
+  .multi .option-dot {
+    border-radius: 6px;
+  }
+
+  .multi .option.selected .option-dot::after {
+    content: '✓';
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 0;
+    background: none;
+    color: white;
+    width: auto;
+    height: auto;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green-light);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 32px;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.02em;
+  }
+
+  .submit-btn:hover {
+    background: var(--green-light);
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .thank-you {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .thank-you .icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+
+  .thank-you h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .thank-you p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .summary-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 32px;
+    text-align: left;
+  }
+
+  .summary-box h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--green-light);
+    margin-bottom: 16px;
+  }
+
+  .summary-item {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .summary-q {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .summary-a {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Charity Link</div>
+    <h1>Proud Business Supporter Club</h1>
+    <p>A few quick questions to help shape how we tell the PBS Club story.<br>Tap your answers — it'll only take 2 minutes.</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+
+  <div id="questionnaire">
+
+    <!-- Q1 -->
+    <div class="question-block" data-q="1">
+      <div class="question-number">Question 1 of 6</div>
+      <div class="question-text">When a business lands on the PBS Club page, what's the most important thing you want them to feel?</div>
+      <div class="options" data-type="single">
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Inspired by the real-world impact they could make</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Reassured that Charity Link is credible and trustworthy</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Excited about the business benefits of being involved</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Part of something meaningful in their local community</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" data-q="2">
+      <div class="question-number">Question 2 of 6</div>
+      <div class="question-text">What's currently the biggest barrier stopping businesses from joining?</div>
+      <div class="options" data-type="single">
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">They don't fully understand what their money actually does</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The monthly commitment feels too high</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">They don't see enough tangible business benefit</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">They simply don't know enough about Charity Link yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" data-q="3">
+      <div class="question-number">Question 3 of 6</div>
+      <div class="question-text">What angle do you most want to lead with on the page?</div>
+      <div class="options" data-type="single">
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The human impact — real stories, real families helped</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The multiplier effect — how £35 becomes £175 of support</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The business credibility and reputation angle</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The community — like-minded local businesses doing good together</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-block" data-q="4">
+      <div class="question-number">Question 4 of 6</div>
+      <div class="question-text">Why do you think most existing members originally joined?</div>
+      <div class="question-note">Pick your top two</div>
+      <div class="options multi" data-type="multi" data-max="2">
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Genuine desire to give back to their local community</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The networking and business community opportunities</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">CSR credentials and reputational benefit</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">A personal connection to the cause or someone at Charity Link</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">A recommendation from someone they trusted</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-block" data-q="5">
+      <div class="question-number">Question 5 of 6</div>
+      <div class="question-text">What do existing members seem to value most once they're in?</div>
+      <div class="options" data-type="single">
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Knowing exactly what their contribution is doing each month</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">Being part of a community of like-minded local businesses</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The PR, promotional and networking opportunities</div>
+        </div>
+        <div class="option" onclick="select(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">The feel good factor — it's as simple as that</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-block" data-q="6">
+      <div class="question-number">Question 6 of 6</div>
+      <div class="question-text">If we built something interactive to bring the PBS Club to life, where would you most want to use it?</div>
+      <div class="question-note">Pick all that apply</div>
+      <div class="options multi" data-type="multi" data-max="4">
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">On the Charity Link website as a standalone page</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">As a shareable link in outreach emails</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">At networking events and presentations</div>
+        </div>
+        <div class="option" onclick="selectMulti(this)">
+          <div class="option-dot"></div>
+          <div class="option-label">For existing members to share with their own networks</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">Submit my answers →</button>
+
+  </div>
+
+  <!-- Thank you screen -->
+  <div class="thank-you" id="thankyou">
+    <div class="icon">💚</div>
+    <h2>Thank you, Rachel!</h2>
+    <p>This is really helpful. Adrian will use your answers to shape what the PBS Club page could look like — and will send you a preview to react to.</p>
+
+    <div class="summary-box" id="summary">
+      <h3>Your answers</h3>
+      <div id="summary-content"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const questions = [
+    "When a business lands on the page, what should they feel?",
+    "Biggest barrier to joining?",
+    "What angle to lead with?",
+    "Why do most members originally join?",
+    "What do members value most once they're in?",
+    "Where would you most want to use an interactive tool?"
+  ];
+
+  function select(el) {
+    const group = el.closest('.options');
+    group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    updateProgress();
+  }
+
+  function selectMulti(el) {
+    const group = el.closest('.options');
+    const max = parseInt(group.dataset.max);
+    const selected = group.querySelectorAll('.option.selected');
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+    } else {
+      if (selected.length < max) {
+        el.classList.add('selected');
+      }
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const blocks = document.querySelectorAll('.question-block');
+    let answered = 0;
+    blocks.forEach(block => {
+      if (block.querySelector('.option.selected')) answered++;
+    });
+    const pct = (answered / blocks.length) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function submitForm() {
+    const blocks = document.querySelectorAll('.question-block');
+    let summaryHTML = '';
+    let emailBody = 'PBS Club Questionnaire - Rachel\'s Answers\n\n';
+    let allAnswered = true;
+
+    blocks.forEach((block, i) => {
+      const selected = block.querySelectorAll('.option.selected');
+      if (selected.length === 0) {
+        allAnswered = false;
+        block.style.outline = '2px solid #e63946';
+        setTimeout(() => block.style.outline = '', 2000);
+      } else {
+        const answers = Array.from(selected).map(s => s.querySelector('.option-label').textContent).join(', ');
+        summaryHTML += `<div class="summary-item"><div class="summary-q">${questions[i]}</div><div class="summary-a">${answers}</div></div>`;
+        emailBody += `Q${i+1}: ${questions[i]}\nA: ${answers}\n\n`;
+      }
+    });
+
+    if (!allAnswered) return;
+
+    const subject = encodeURIComponent('PBS Club Questionnaire – Rachel\'s Answers');
+    const body = encodeURIComponent(emailBody);
+    window.location.href = `mailto:Aqcroft@gmail.com?subject=${subject}&body=${body}`;
+
+    document.getElementById('questionnaire').style.display = 'none';
+    const ty = document.getElementById('thankyou');
+    ty.style.display = 'block';
+    document.getElementById('summary-content').innerHTML = summaryHTML;
+    document.getElementById('progress').style.width = '100%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
