@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Quick feedback · UW Partner Earnings Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --purple:#7c3aed;--pink:#db2777;
+  --grad:linear-gradient(135deg,#7c3aed,#db2777);
+  --bg:#f0edf8;--bg2:#e8e3f5;
+  --surface:#fff;
+  --border:rgba(124,58,237,0.12);--border2:rgba(124,58,237,0.22);
+  --text:#1a1525;--text2:#4a4468;--text3:#8b82a8;
+  --green:#16a34a;--amber:#f59e0b;
+  --font-display:'Fraunces',serif;--font-body:'Nunito',sans-serif;
+  --radius:1rem;
+  --shadow:0 2px 16px rgba(124,58,237,0.1);
+  --shadow-md:0 4px 24px rgba(124,58,237,0.15);
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font-body);font-size:16px;line-height:1.5;
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(124,58,237,0.07) 1px,transparent 1px);
+  background-size:24px 24px;pointer-events:none;z-index:0;
+}
+.blob{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0;animation:blob-float 14s ease-in-out infinite alternate;}
+.blob-1{width:360px;height:360px;background:rgba(219,39,119,0.07);top:-100px;right:-80px;}
+.blob-2{width:300px;height:300px;background:rgba(124,58,237,0.08);top:45%;left:-100px;animation-delay:-5s;}
+.blob-3{width:220px;height:220px;background:rgba(251,191,36,0.06);bottom:5%;right:10%;animation-delay:-9s;}
+@keyframes blob-float{from{transform:translate(0,0) scale(1);}to{transform:translate(16px,24px) scale(1.05);}}
+
+.wrap{max-width:480px;margin:0 auto;padding:1.5rem 1.25rem 4rem;position:relative;z-index:1;}
+
+/* ── Header ── */
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;}
+.pill{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.72rem;font-weight:700;font-family:var(--font-body);padding:0.28rem 0.65rem;border-radius:999px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);color:var(--purple);}
+.eyebrow{font-size:0.67rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);}
+.display{font-family:var(--font-display);line-height:1.1;letter-spacing:-0.01em;}
+.grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);margin-bottom:0.75rem;}
+.card-tinted{background:linear-gradient(135deg,rgba(124,58,237,0.05),rgba(219,39,119,0.03));border-color:var(--border2);}
+
+/* ── Form elements ── */
+label.field-label{display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.25rem;}
+.field-hint{font-size:0.7rem;color:var(--text3);margin-bottom:0.55rem;line-height:1.4;}
+
+input[type=text],input[type=email],textarea,select{
+  width:100%;padding:0.65rem 0.85rem;
+  border:1.5px solid var(--border2);border-radius:0.7rem;
+  background:var(--bg2);color:var(--text);
+  font-family:var(--font-body);font-size:0.88rem;
+  outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+  -webkit-appearance:none;appearance:none;
+}
+input[type=text]:focus,input[type=email]:focus,textarea:focus,select:focus{
+  border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,0.1);
+}
+textarea{min-height:4.5rem;resize:vertical;line-height:1.55;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b82a8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.85rem center;padding-right:2.5rem;cursor:pointer;}
+
+/* ── Star rating ── */
+.stars{display:flex;gap:0.35rem;margin:0.35rem 0 0.1rem;}
+.star-btn{
+  width:2.6rem;height:2.6rem;border-radius:0.6rem;
+  border:1.5px solid var(--border2);background:var(--bg2);
+  font-family:var(--font-body);font-size:0.72rem;font-weight:700;color:var(--text3);
+  cursor:pointer;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.1rem;
+  -webkit-tap-highlight-color:transparent;
+}
+.star-btn.active{background:rgba(124,58,237,0.12);border-color:var(--purple);color:var(--purple);}
+.star-btn:active{transform:scale(0.93);}
+.star-label{font-size:0.58rem;font-weight:600;color:inherit;}
+
+/* ── Checkboxes ── */
+.check-list{display:flex;flex-direction:column;gap:0.35rem;}
+.check-item{
+  display:flex;align-items:flex-start;gap:0.7rem;
+  padding:0.65rem 0.85rem;border-radius:0.7rem;
+  border:1.5px solid var(--border);background:var(--bg2);
+  cursor:pointer;transition:all 0.15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.check-item.checked{background:rgba(124,58,237,0.08);border-color:rgba(124,58,237,0.3);}
+.check-item:active{transform:scale(0.99);}
+.check-box{
+  width:1.1rem;height:1.1rem;border-radius:0.3rem;
+  border:1.5px solid var(--border2);background:var(--surface);
+  flex-shrink:0;margin-top:0.1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.check-item.checked .check-box{background:var(--purple);border-color:var(--purple);}
+.check-tick{color:white;font-size:0.7rem;opacity:0;transition:opacity 0.15s;}
+.check-item.checked .check-tick{opacity:1;}
+.check-text strong{display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.08rem;}
+.check-text span{font-size:0.72rem;color:var(--text3);line-height:1.35;}
+
+/* ── Radio pills ── */
+.radio-list{display:flex;flex-direction:column;gap:0.32rem;}
+.radio-item{
+  display:flex;align-items:center;gap:0.7rem;
+  padding:0.6rem 0.85rem;border-radius:0.7rem;
+  border:1.5px solid var(--border);background:var(--bg2);
+  cursor:pointer;transition:all 0.15s;
+  -webkit-tap-highlight-color:transparent;
+  font-size:0.85rem;font-weight:600;color:var(--text2);
+}
+.radio-item.selected{background:rgba(124,58,237,0.08);border-color:rgba(124,58,237,0.3);color:var(--text);}
+.radio-item:active{transform:scale(0.99);}
+.radio-dot{width:1rem;height:1rem;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;background:var(--surface);}
+.radio-item.selected .radio-dot{border-color:var(--purple);background:var(--purple);}
+.radio-inner{width:0.42rem;height:0.42rem;border-radius:50%;background:white;opacity:0;transition:opacity 0.15s;}
+.radio-item.selected .radio-inner{opacity:1;}
+
+/* ── Section label ── */
+.section-q{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:0.2rem;}
+.section-hint{font-size:0.72rem;color:var(--text3);margin-bottom:0.6rem;line-height:1.4;}
+
+/* ── Buttons ── */
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:0.6rem;width:100%;padding:1rem 1.1rem;background:var(--grad);color:white;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:1rem;font-weight:700;box-shadow:0 6px 20px rgba(124,58,237,0.3);transition:transform 0.15s,box-shadow 0.15s;-webkit-tap-highlight-color:transparent;}
+.btn-primary:active{transform:scale(0.98);box-shadow:0 2px 10px rgba(124,58,237,0.2);}
+.btn-ghost{display:flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;padding:0.75rem;background:transparent;color:var(--text3);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:0.85rem;font-weight:600;transition:all 0.15s;-webkit-tap-highlight-color:transparent;margin-top:0.5rem;}
+.btn-ghost:active{transform:scale(0.98);}
+
+/* ── Validation notice ── */
+.notice{font-size:0.75rem;color:var(--pink);padding:0.5rem 0.75rem;border-radius:0.6rem;background:rgba(219,39,119,0.07);border:1px solid rgba(219,39,119,0.2);margin-bottom:0.75rem;display:none;}
+.notice.show{display:block;}
+
+/* ── Progress dots ── */
+.progress{display:flex;gap:0.35rem;justify-content:center;margin-bottom:1.5rem;}
+.prog-dot{width:6px;height:6px;border-radius:50%;background:rgba(124,58,237,0.15);transition:all 0.3s;}
+.prog-dot.done{background:var(--purple);}
+.prog-dot.active{background:var(--purple);transform:scale(1.5);}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="pill">✦ Quick feedback</span>
+  </div>
+
+  <div class="reveal" id="rev-hero">
+    <p class="eyebrow" style="margin-bottom:0.5rem;color:rgba(124,58,237,0.7);">2–3 minutes · honest answers only</p>
+    <h1 class="display" style="font-size:clamp(1.7rem,7vw,2.2rem);font-weight:700;margin-bottom:0.6rem;">
+      Help make this<br/><span class="grad-text">better for everyone.</span>
+    </h1>
+    <p style="color:var(--text2);font-size:0.88rem;line-height:1.65;margin-bottom:1.75rem;">
+      You just used the UW Partner Earnings Tool. Three minutes of honest feedback helps spot what's confusing, what's compelling, and what needs fixing.
+    </p>
+  </div>
+
+  <!-- About you -->
+  <div class="card reveal" id="rev-1">
+    <p class="eyebrow" style="margin-bottom:0.75rem;font-size:0.62rem;">About you</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.75rem;">
+      <div>
+        <label class="field-label" for="name">Name</label>
+        <input type="text" id="name" placeholder="Optional"/>
+      </div>
+      <div>
+        <label class="field-label" for="email">Email</label>
+        <input type="email" id="email" placeholder="Optional"/>
+      </div>
+    </div>
+    <label class="field-label" for="role">Which best describes you?</label>
+    <p class="field-hint">Helps interpret the feedback.</p>
+    <select id="role">
+      <option value="">Select one</option>
+      <option>Business owner / self-employed</option>
+      <option>Employed (not self-employed)</option>
+      <option>Mortgage / financial adviser</option>
+      <option>Networking regular</option>
+      <option>Just curious / testing</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <!-- First impression -->
+  <div class="card reveal" id="rev-2">
+    <p class="section-q">In one sentence — what did you think the tool was for?</p>
+    <p class="section-hint">Tests first impression clarity. Don't overthink it.</p>
+    <textarea id="impression" placeholder="e.g. Showing how much you could earn recommending utility services…"></textarea>
+  </div>
+
+  <!-- Ease of use -->
+  <div class="card reveal" id="rev-3">
+    <p class="section-q">How easy was it to use?</p>
+    <p class="section-hint">1 = confusing · 5 = very easy</p>
+    <div class="stars" id="stars">
+      <button class="star-btn" data-v="1" onclick="rate(1)"><span>1</span><span class="star-label">Confusing</span></button>
+      <button class="star-btn" data-v="2" onclick="rate(2)"><span>2</span><span class="star-label">Hard</span></button>
+      <button class="star-btn" data-v="3" onclick="rate(3)"><span>3</span><span class="star-label">OK</span></button>
+      <button class="star-btn" data-v="4" onclick="rate(4)"><span>4</span><span class="star-label">Easy</span></button>
+      <button class="star-btn" data-v="5" onclick="rate(5)"><span>5</span><span class="star-label">Very easy</span></button>
+    </div>
+  </div>
+
+  <!-- Where confused -->
+  <div class="card reveal" id="rev-4">
+    <p class="section-q">Where (if anywhere) did you hesitate or get confused?</p>
+    <p class="section-hint">Tick any that apply.</p>
+    <div class="check-list" id="checks">
+      <div class="check-item" data-v="customer-selection" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div class="check-text"><strong>Customer selection</strong><span>Choosing homeowner vs tenant, number of services, what each means.</span></div>
+      </div>
+      <div class="check-item" data-v="partner-upgrade" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div class="check-text"><strong>Upgrading a customer to Partner 💎</strong><span>Finding the toggle inside the customer picker, understanding why it matters.</span></div>
+      </div>
+      <div class="check-item" data-v="scrolling-chapters" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div class="check-text"><strong>Scrolling between chapters</strong><span>Knowing there was more to see — the breakdown, the duplication story, the CTA.</span></div>
+      </div>
+      <div class="check-item" data-v="income-streams" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div class="check-text"><strong>The four income streams</strong><span>Customer Bonus, High Activity Bonus, Recurring Income, Fast Start — what each one means.</span></div>
+      </div>
+      <div class="check-item" data-v="duplication-chapter" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div class="check-text"><strong>The "what's next" chapter</strong><span>The partner duplication story — what it was saying and why it was there.</span></div>
+      </div>
+      <div class="check-item" data-v="other" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div class="check-text"><strong>Something else</strong><span>Anything else that felt awkward or unclear.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Believability -->
+  <div class="card reveal" id="rev-5">
+    <p class="section-q">Did "five conversations → around £2,000" feel believable?</p>
+    <p class="section-hint">Gut reaction is fine.</p>
+    <div class="radio-list" id="believe">
+      <div class="radio-item" data-v="yes" onclick="selectRadio('believe',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Yes — believable</div>
+      <div class="radio-item" data-v="mostly" onclick="selectRadio('believe',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Mostly — but it needs clearer context</div>
+      <div class="radio-item" data-v="unsure" onclick="selectRadio('believe',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Not sure</div>
+      <div class="radio-item" data-v="no" onclick="selectRadio('believe',this)"><div class="radio-dot"><div class="radio-inner"></div></div>No — feels unrealistic</div>
+    </div>
+  </div>
+
+  <!-- Device -->
+  <div class="card reveal" id="rev-6">
+    <p class="section-q">How did it feel on your device?</p>
+    <div class="radio-list" id="device">
+      <div class="radio-item" data-v="mobile-slick" onclick="selectRadio('device',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Mobile — felt slick</div>
+      <div class="radio-item" data-v="mobile-clunky" onclick="selectRadio('device',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Mobile — usable but a bit clunky</div>
+      <div class="radio-item" data-v="desktop-fine" onclick="selectRadio('device',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Desktop — fine</div>
+      <div class="radio-item" data-v="desktop-awkward" onclick="selectRadio('device',this)"><div class="radio-dot"><div class="radio-inner"></div></div>Desktop — awkward</div>
+    </div>
+  </div>
+
+  <!-- One thing -->
+  <div class="card reveal" id="rev-7">
+    <p class="section-q">If only one thing could be improved, what would it be?</p>
+    <textarea id="onething" placeholder="Be as specific as you like…"></textarea>
+  </div>
+
+  <!-- Bugs -->
+  <div class="card reveal" id="rev-8">
+    <p class="section-q">Anything broken or glitchy?</p>
+    <p class="section-hint">Optional — include what happened and what device/browser you were using.</p>
+    <textarea id="bugs" placeholder="e.g. The earnings number didn't update when I changed services on iPhone Safari…"></textarea>
+  </div>
+
+  <!-- Validation notice -->
+  <div class="notice" id="notice">Please answer at least the first impression question and the ease score before sending.</div>
+
+  <!-- Submit -->
+  <div class="reveal" id="rev-cta">
+    <button class="btn-primary" onclick="sendFeedback()">
+      <span>Send feedback</span><span style="font-size:1.2rem">✦</span>
+    </button>
+    <button class="btn-ghost" onclick="resetForm()">Start over</button>
+    <p style="font-size:0.65rem;color:var(--text3);text-align:center;margin-top:1.1rem;line-height:1.6;">
+      Pressing "Send feedback" opens your email app with everything filled in.<br/>No data is stored on this website.
+    </p>
+  </div>
+
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let easeScore=0;
+const checks=new Set();
+const radios={believe:null,device:null};
+
+// ── Rating ────────────────────────────────────────────────────────────────────
+function rate(v){
+  easeScore=v;
+  document.querySelectorAll('.star-btn').forEach(b=>{
+    b.classList.toggle('active',parseInt(b.dataset.v)<=v);
+  });
+}
+
+// ── Checkboxes ────────────────────────────────────────────────────────────────
+function toggleCheck(el){
+  const v=el.dataset.v;
+  if(checks.has(v)){checks.delete(v);el.classList.remove('checked');}
+  else{checks.add(v);el.classList.add('checked');}
+}
+
+// ── Radio ─────────────────────────────────────────────────────────────────────
+function selectRadio(group,el){
+  radios[group]=el.dataset.v;
+  document.querySelectorAll(`#${group} .radio-item`).forEach(r=>r.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── Build email ───────────────────────────────────────────────────────────────
+function sendFeedback(){
+  const impression=document.getElementById('impression').value.trim();
+  const notice=document.getElementById('notice');
+
+  if(!impression||!easeScore){notice.classList.add('show');notice.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  notice.classList.remove('show');
+
+  const name=document.getElementById('name').value.trim()||'(not given)';
+  const email=document.getElementById('email').value.trim()||'(not given)';
+  const role=document.getElementById('role').value||'(not given)';
+  const onething=document.getElementById('onething').value.trim()||'(nothing noted)';
+  const bugs=document.getElementById('bugs').value.trim()||'(nothing noted)';
+
+  const confusedList=[...checks].map(v=>({
+    'customer-selection':'Customer selection',
+    'partner-upgrade':'Partner upgrade 💎',
+    'scrolling-chapters':'Scrolling between chapters',
+    'income-streams':'Four income streams',
+    'duplication-chapter':'"What\'s next" chapter',
+    'other':'Something else',
+  }[v]||v)).join(', ')||'Nothing ticked';
+
+  const believeMap={yes:'Yes — believable',mostly:'Mostly — needs clearer context',unsure:'Not sure',no:'No — feels unrealistic'};
+  const deviceMap={'mobile-slick':'Mobile — slick','mobile-clunky':'Mobile — clunky','desktop-fine':'Desktop — fine','desktop-awkward':'Desktop — awkward'};
+
+  const body=`UW PARTNER EARNINGS TOOL — FEEDBACK
+${'─'.repeat(40)}
+
+NAME: ${name}
+EMAIL: ${email}
+ROLE: ${role}
+
+FIRST IMPRESSION
+"${impression}"
+
+EASE OF USE: ${easeScore}/5
+
+WHERE CONFUSED: ${confusedList}
+
+BELIEVABILITY: ${believeMap[radios.believe]||'(not answered)'}
+
+DEVICE: ${deviceMap[radios.device]||'(not answered)'}
+
+ONE THING TO IMPROVE
+"${onething}"
+
+BUGS / GLITCHES
+"${bugs}"
+
+${'─'.repeat(40)}
+Sent via feedback.html`;
+
+  const subject=`UW Tool feedback — ${name==='(not given)'?'Anonymous':name} · ease ${easeScore}/5`;
+  const mailto=`mailto:adrian.croft@uw.partners?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href=mailto;
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+function resetForm(){
+  easeScore=0;checks.clear();radios.believe=null;radios.device=null;
+  document.querySelectorAll('input,textarea').forEach(el=>el.value='');
+  document.getElementById('role').value='';
+  document.querySelectorAll('.star-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.check-item').forEach(b=>b.classList.remove('checked'));
+  document.querySelectorAll('.radio-item').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('notice').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Reveal on scroll ──────────────────────────────────────────────────────────
+function initReveal(){
+  const els=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+  },{threshold:0.08});
+  els.forEach((el,i)=>{
+    setTimeout(()=>obs.observe(el),i*60);
+  });
+}
+document.addEventListener('DOMContentLoaded',initReveal);
+</script>
+</body>
+</html>
