@@ -136,6 +136,26 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .divider{height:1px;background:var(--border);margin:0.85rem 0;}
 
 .locked-ch{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;opacity:0.35;}
+
+/* ── Floating feedback ── */
+.feedback-float{
+  position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%);
+  z-index:95;
+  display:flex;align-items:center;gap:0.4rem;
+  padding:0.45rem 0.85rem 0.45rem 0.7rem;
+  background:rgba(240,237,248,0.88);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(124,58,237,0.2);
+  border-radius:999px;
+  box-shadow:0 4px 20px rgba(124,58,237,0.15);
+  font-family:var(--font-body);font-size:0.72rem;font-weight:700;
+  color:var(--purple);text-decoration:none;
+  white-space:nowrap;
+  transition:opacity 0.4s,transform 0.4s;
+  -webkit-tap-highlight-color:transparent;
+}
+.feedback-float:hover{background:rgba(240,237,248,0.97);}
+.feedback-float.hidden{opacity:0;transform:translateX(-50%) translateY(8px);pointer-events:none;}
 </style>
 </head>
 <body>
@@ -143,6 +163,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 <script type="text/babel">
 const {useState,useEffect,useRef,useMemo}=React;
 
+const FEEDBACK_URL='https://aqcroft.github.io/UW_PET_GH_v5/feedback.html';
 const CONTACT={
   displayName:'Adrian',fullName:'Adrian Croft',title:'UW Partner',
   photoUrl:'https://raw.githubusercontent.com/aqcroft/UW_PET_GH_v2/main/Adrian_Croft.jpg',
@@ -198,7 +219,10 @@ function ChHero({onBegin}){
   return(
     <div className="chapter" style={{padding:'1.25rem',justifyContent:'space-between'}}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <span className="pill">✦ Partner Earnings Tool</span>
+        <div style={{display:'flex',alignItems:'center',gap:'0.45rem'}}>
+          <span className="pill">✦ Partner Earnings Tool</span>
+          <span style={{fontSize:'0.62rem',fontWeight:'800',letterSpacing:'0.08em',padding:'0.2rem 0.5rem',borderRadius:'999px',background:'rgba(245,158,11,0.12)',border:'1px solid rgba(245,158,11,0.3)',color:'#b45309',fontFamily:'var(--font-body)'}}>BETA</span>
+        </div>
         <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <img src={CONTACT.photoUrl} alt={CONTACT.fullName} style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover',border:'1.5px solid rgba(124,58,237,0.3)'}} onError={e=>e.currentTarget.style.display='none'}/>
           <span style={{fontSize:'0.73rem',color:'var(--text2)',fontWeight:'600'}}>{CONTACT.displayName}</span>
@@ -581,6 +605,12 @@ function ChCTA({earnings}){
             </a>
           ))}
         </div>
+        <div style={{textAlign:'center',margin:'0.75rem 0'}}>
+          <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer"
+            style={{fontSize:'0.72rem',color:'var(--text3)',textDecoration:'none',display:'inline-flex',alignItems:'center',gap:'0.3rem',borderBottom:'1px solid rgba(139,130,168,0.3)',paddingBottom:'0.1rem'}}>
+            <span>✍️</span><span>Using this during beta? Share your feedback</span>
+          </a>
+        </div>
         <p style={{fontSize:'0.58rem',color:'var(--text3)',textAlign:'center',lineHeight:1.6}}>Earnings are illustrative based on typical UW Partner activity. Actual results depend on individual effort and circumstances. UW Partner agreement applies.</p>
         <div style={{height:'0.75rem'}}/>
       </div>
@@ -635,6 +665,7 @@ function App(){
   return(
     <>
       <div className="blob blob-1"/><div className="blob blob-2"/><div className="blob blob-3"/>
+      <FeedbackFloat visible={started}/>
       <div className="nav-dots">
         {Array.from({length:dots},(_,i)=>(
           <div key={i} className={`nav-dot${activeIdx===i?' active':''}${i<activeIdx?' done':''}`}
@@ -655,6 +686,18 @@ function App(){
         <ChCTA earnings={earnings}/>
       </div>
     </>
+  );
+}
+
+// ── Floating feedback button ──────────────────────────────────────────────────
+function FeedbackFloat({visible}){
+  return(
+    <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer"
+      className={`feedback-float${visible?'':' hidden'}`}>
+      <span style={{fontSize:'0.85rem'}}>✍️</span>
+      <span>Share feedback</span>
+      <span style={{fontSize:'0.6rem',fontWeight:'800',padding:'0.15rem 0.38rem',borderRadius:'999px',background:'rgba(245,158,11,0.15)',border:'1px solid rgba(245,158,11,0.3)',color:'#b45309',letterSpacing:'0.06em',marginLeft:'0.1rem'}}>BETA</span>
+    </a>
   );
 }
 
