@@ -416,15 +416,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
           })}
         </div>
 
-        {earnings.hasPartner&&(
-          <div style={{marginTop:'0.45rem',padding:'0.7rem 0.8rem',borderRadius:'0.7rem',
-            background:'rgba(219,39,119,0.08)',border:'1.5px solid rgba(219,39,119,0.3)',
-            textAlign:'center',transition:'all 0.3s'}}>
-            <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
-            <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
-            <button className="btn-next" style={{marginTop:'0.5rem'}} onClick={scrollToNext}>See how it all adds up ↓</button>
-          </div>
-        )}
+
         {selected!==null&&(
           <div className="picker">
 
@@ -457,7 +449,20 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
         )}
 
 
-        {(!earnings.allFilled||!earnings.hasPartner)&&<div className="coach" style={{marginTop:'0.45rem'}}>{coachMsg}</div>}
+        <div className="coach" style={{marginTop:'0.45rem'}}>{coachMsg}</div>
+        {earnings.allFilled&&(
+          <div className="coach" style={{marginTop:'0.35rem',borderLeftColor:earnings.hasPartner?'var(--pink)':'var(--purple)',background:earnings.hasPartner?'rgba(219,39,119,0.08)':'rgba(124,58,237,0.09)'}}>
+            {earnings.hasPartner?(
+              <div style={{textAlign:'center'}}>
+                <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
+                <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
+                <button className="btn-next" style={{marginTop:'0.5rem'}} onClick={scrollToNext}>See how it all adds up ↓</button>
+              </div>
+            ):(
+              <span>Long press any customer to upgrade them to a Partner 💎</span>
+            )}
+          </div>
+        )}
 
 
         <div style={{height:'0.75rem'}}/>
@@ -481,17 +486,26 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
 }
 
 // ── CH2: BREAKDOWN ────────────────────────────────────────────────────────────
-function ChBreakdown({earnings,scrollToNext}){
+function ChBreakdown({earnings,slots,scrollToNext}){
   const [open,setOpen]=useState(null);
+  // Basket counts
+  const homeowners=slots.filter(s=>s.type==='home');
+  const tenants=slots.filter(s=>s.type==='rent');
+  const hCounts=[0,0,0,0,0]; // index = svcs count
+  homeowners.forEach(s=>{ if(s.svcs>=1&&s.svcs<=4) hCounts[s.svcs]++; });
+  const tCounts=[0,0,0,0,0];
+  tenants.forEach(s=>{ if(s.svcs>=1&&s.svcs<=4) tCounts[s.svcs]++; });
+  const habCount=homeowners.filter(s=>s.svcs>=3).length;
+  const habRate=earnings.habRate;
   const streams=[
     {id:'cb',icon:'🏠',label:'Customer Bonus',value:earnings.totalCB,colour:'var(--purple)',available:true,desc:"Paid upfront when a homeowner's services go live.",
-      detail:<div>{[[1,'£50'],[2,'£100'],[3,'£250'],[4,'£300']].map(([n,v])=><div key={n} className="info-row" style={{justifyContent:'space-between',marginBottom:0}}><span>{n} service{n>1?'s':''}</span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',lineHeight:1.45,marginTop:'0.35rem'}}>💡 UW advances residual income upfront for homeowners. The more services, the bigger the advance. Once this deferral period ends, homeowners also add to your monthly residual income — ask Adrian about the timings.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about recurring income from homeowners")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about homeowner recurring income →</a></p></div>
+      detail:<div>{[[1,'£50'],[2,'£100'],[3,'£250'],[4,'£300']].map(([n,v])=><div key={n} className="info-row" style={{justifyContent:'space-between',marginBottom:0}}><span>{n} service{n>1?'s':''}</span><span style={{display:'flex',alignItems:'center',gap:'0.35rem'}}>{hCounts[n]>0&&<span style={{fontSize:'0.75rem',fontWeight:'700',color:'var(--purple)',background:'rgba(124,58,237,0.12)',border:'1px solid rgba(124,58,237,0.3)',borderRadius:'0.35rem',padding:'0.05rem 0.35rem'}}>×{hCounts[n]}</span>}<span style={{fontWeight:'700'}}>{v}</span></span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',lineHeight:1.45,marginTop:'0.35rem'}}>💡 UW advances residual income upfront for homeowners. The more services, the bigger the advance. Once this deferral period ends, homeowners also add to your monthly residual income — ask Adrian about the timings.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about recurring income from homeowners")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about homeowner recurring income →</a></p></div>
     },
     {id:'hab',icon:'🔥',label:'High Activity Bonus',value:earnings.totalHAB,colour:'var(--orange)',available:earnings.habQ>=2,lockedHint:'2+ homeowners with 3+ services',desc:'Extra reward for multiple high-service homeowners in a calendar month.',
-      detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>2–3 qualifying homeowners</span><span style={{fontWeight:'700'}}>£50 each</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>4+ qualifying homeowners</span><span style={{fontWeight:'700'}}>£100 each</span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem'}}>💡 Combined with Customer Bonus — up to £400 per homeowner.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the High Activity Bonus and how to qualify")}`} style={{color:'var(--orange)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about the High Activity Bonus →</a></p></div>
+      detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>2–3 qualifying homeowners</span><span style={{display:'flex',alignItems:'center',gap:'0.35rem'}}>{habCount>=2&&habCount<=3&&<span style={{fontSize:'0.75rem',fontWeight:'700',color:'var(--orange)',background:'rgba(234,88,12,0.1)',border:'1px solid rgba(234,88,12,0.3)',borderRadius:'0.35rem',padding:'0.05rem 0.35rem'}}>×{habCount}</span>}<span style={{fontWeight:'700'}}>£50 each</span></span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>4+ qualifying homeowners</span><span style={{display:'flex',alignItems:'center',gap:'0.35rem'}}>{habCount>=4&&<span style={{fontSize:'0.75rem',fontWeight:'700',color:'var(--orange)',background:'rgba(234,88,12,0.1)',border:'1px solid rgba(234,88,12,0.3)',borderRadius:'0.35rem',padding:'0.05rem 0.35rem'}}>×{habCount}</span>}<span style={{fontWeight:'700'}}>£100 each</span></span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem'}}>💡 Combined with Customer Bonus — up to £400 per homeowner.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the High Activity Bonus and how to qualify")}`} style={{color:'var(--orange)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about the High Activity Bonus →</a></p></div>
     },
     {id:'ri',icon:'🔄',label:'Recurring Income',value:earnings.monthlyResidual,colour:'var(--blue)',available:earnings.qualifyQD&&earnings.tenantCount>0,lockedHint:!earnings.qualifyQD?'Unlocks at 3 customers (QD)':'Add a tenant to activate',desc:"Monthly income from tenant customers' bills — paid every month.",
-      detail:<div>{[[1,'£1.40/mo','(energy)'],[2,'£2.50/mo','(+ broadband)'],[3,'£3.10/mo','(+ mobile)']].map(([n,v,d])=><div key={n} className="info-row" style={{justifyContent:'space-between'}}><span>{n} service{n>1?'s':''} <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>{d}</span></span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.45}}>💡 Tenant residual flows from day one — no deferral. Keeps paying every month, and grows as your team does.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about how recurring income builds over time")}`} style={{color:'var(--blue)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about recurring income →</a></p></div>
+      detail:<div>{[[1,'£1.40/mo','(energy)'],[2,'£2.50/mo','(+ broadband)'],[3,'£3.10/mo','(+ mobile)'],[4,'£3.75/mo','(+ mobile+)']].map(([n,v,d])=><div key={n} className="info-row" style={{justifyContent:'space-between'}}><span>{n} service{n>1?'s':''} <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>{d}</span></span><span style={{display:'flex',alignItems:'center',gap:'0.35rem'}}>{tCounts[n]>0&&<span style={{fontSize:'0.75rem',fontWeight:'700',color:'var(--blue)',background:'rgba(37,99,235,0.1)',border:'1px solid rgba(37,99,235,0.3)',borderRadius:'0.35rem',padding:'0.05rem 0.35rem'}}>×{tCounts[n]}</span>}<span style={{fontWeight:'700'}}>{v}</span></span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.45}}>💡 Tenant residual flows from day one — no deferral. Keeps paying every month, and grows as your team does.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about how recurring income builds over time")}`} style={{color:'var(--blue)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about recurring income →</a></p></div>
     },
     {id:'fs',icon:'🚀',label:'Fast Start Bonus',value:earnings.fastStarter,colour:'var(--green)',available:earnings.fastStarter>0,lockedHint:'Complete QD* within 30 days',desc:'Up to £500 for reaching your first milestone within 30 days.',
       detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>Promotion Bonus</span><span style={{fontWeight:'700'}}>£200</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>Fast Start Bonus <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>(within 30 days)</span></span><span style={{fontWeight:'700'}}>£300</span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.5}}>💡 UW rewards partners who start strong. Reach QD* in your first 30 days — 6 customers including yourself, plus one partner — and you're paid for the momentum.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the Fast Start Bonus and what I need to do in the first 30 days")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about getting started →</a></p></div>
@@ -720,7 +734,7 @@ function App(){
           ?<ChBuilder slots={slots} setSlots={setSlots} includeYou={includeYou} setIncludeYou={setIncludeYou} earnings={earnings} onCelebDone={handleCelebDone} scrollToNext={()=>goTo(2)}/>
           :<div className="chapter" style={{minHeight:'100dvh'}}/>
         }
-        {ch2on?<ChBreakdown earnings={earnings} scrollToNext={()=>{setCh3on(true);goTo(3);}}/>:<ChLocked label="How it adds up" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
+        {ch2on?<ChBreakdown earnings={earnings} slots={slots} scrollToNext={()=>{setCh3on(true);goTo(3);}}/>:<ChLocked label="How it adds up" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
         {ch3on?<ChDuplication earnings={earnings} scrollToNext={()=>goTo(4)}/>:<ChLocked label="There's more to see" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
         <ChCTA earnings={earnings}/>
       </div>
