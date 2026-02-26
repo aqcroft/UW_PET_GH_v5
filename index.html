@@ -84,7 +84,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.32rem;}
 .svc-btn{padding:0.5rem 0.15rem;border-radius:0.55rem;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-family:var(--font-body);font-size:1.1rem;font-weight:700;cursor:pointer;transition:all 0.15s;text-align:center;-webkit-tap-highlight-color:transparent;line-height:1.3;min-height:2.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .svc-btn.s-home{background:rgba(124,58,237,0.12);border-color:var(--purple);color:var(--purple);}
-.svc-btn.s-pre{border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.04);}
+.svc-btn.s-pre{border-color:var(--border);background:var(--bg2);}
 .svc-btn.s-rent{background:rgba(37,99,235,0.12);border-color:var(--blue);color:var(--blue);}
 
 .you-toggle{display:flex;align-items:center;gap:0.45rem;font-size:1.05rem;color:var(--text3);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
@@ -201,9 +201,10 @@ function calcAll(slots,includeYou){
   const allFilled=includeYou?slots.slice(1).every(c=>c.type!==null):slots.every(c=>c.type!==null);
   const hasPartner=prospects.some(c=>c.isPartner);
   const fastStarter=allFilled&&hasPartner?500:0;
-  const total=totalCB+totalHAB+fastStarter+annualResidual;
+  const total=totalCB+totalHAB+fastStarter+monthlyResidual;
   const totalSvcs=prospects.reduce((s,c2)=>s+(c2.type!==null?c2.svcs:0),0);
-  return{totalCB,totalHAB,habRate,habQ,fastStarter,monthlyResidual,annualResidual,qualifyQD,customerCount,allFilled,hasPartner,tenantCount:tenants.length,total,totalSvcs};
+  const introducedCount=includeYou?customerCount-1:customerCount;
+  return{totalCB,totalHAB,habRate,habQ,fastStarter,monthlyResidual,annualResidual,qualifyQD,customerCount,introducedCount,allFilled,hasPartner,tenantCount:tenants.length,total,totalSvcs};
 }
 
 function YouTip(){
@@ -274,7 +275,7 @@ function ChHero({onBegin}){
 const EMPTY=Array.from({length:6},()=>({type:null,svcs:0,isPartner:false}));
 
 function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone,scrollToNext}){
-  const [selected,setSelected]=useState(null);
+  const [selected,setSelected]=useState(1);
   const [pickerType,setPickerType]=useState(null);
   const [popKey,setPop]=useState(0);
   const [showCeleb,setShowCeleb]=useState(false);
@@ -297,12 +298,12 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
     if(earnings.habQ===3)return"🔥 Three HAB customers! One more 3-service homeowner and your bonus jumps from £50 to £100 on all four. That's a £200 swing.";
     if(filled===0)return"👆 Tap an empty slot to add your first customer. Homeowners offer the biggest upfront reward.";
     if(filled===1)return"Nice start! Keep going — recurring income unlocks at 3 customers.";
-    if(filled===2)return"One more and your monthly income starts flowing. What type is your next customer?";
+    if(filled===2&&!earnings.qualifyQD)return"One more and your monthly income starts flowing. What type is your next customer?";
     if(earnings.qualifyQD&&!earnings.allFilled){
       if(earnings.tenantCount>0)return`💙 Monthly income unlocked — £${Number(earnings.monthlyResidual).toFixed(2)}/month from ${earnings.tenantCount} tenant${earnings.tenantCount>1?'s':''}. Keep building!`;
       return"🎉 Recurring income unlocked! Add a tenant to start building monthly income alongside the upfront bonuses.";
     }
-    if(earnings.allFilled&&!earnings.hasPartner)return"Almost the full picture! Tap any customer below to upgrade them to a Partner 💎 and unlock the £500 Fast Start bonus.";
+    if(earnings.allFilled&&!earnings.hasPartner)return null;
     if(earnings.allFilled&&earnings.hasPartner)return"🎉 That's the complete picture. Every number here is real — based on actual UW Partner earnings.";
     return"Try different customer types to see how your earnings change.";
   },[slots,earnings,selected]);
@@ -340,7 +341,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
     const nextEmpty=slots.findIndex((sl,i)=>i>selected&&i>0&&sl.type===null);
     setPickerType(null);
     if(nextEmpty>-1){setSelected(nextEmpty);setPickerType(null);}
-    else setSelected(null);
+    else setSelected(selected);
   }
   function clearSlot(){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={type:null,svcs:0,isPartner:false};return n;});setPickerType(null);}
 
@@ -350,7 +351,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
   return(
     <div className="chapter-scroll">
       <div className="chap-bar">
-        <span className="eyebrow">Build your 6</span>
+        <span className="eyebrow">Build your {includeYou?'5':'6'}</span>
         <label className="you-toggle" onClick={()=>setIncludeYou(v=>!v)} style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
           <span>Include yourself</span>
           <div className={`mini-track${includeYou?' on':' off'}`}><div className="mini-thumb"/></div>
@@ -361,7 +362,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
 
         <div className="card card-tinted" style={{padding:'0.85rem 0.95rem',marginBottom:'0.45rem',textAlign:'center'}}>
           <p className="eyebrow" style={{marginBottom:'0.18rem',fontSize:'0.98rem'}}>Your estimated earnings</p>
-          <div key={popKey} className="earnings-hero num-pop">£{earnings.total.toLocaleString()}</div>
+          <div key={popKey} className="earnings-hero num-pop">£{Math.ceil(earnings.total).toLocaleString()}</div>
           <div className="prog-track"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.98rem',color:'var(--text3)'}}>
             <span>{pct<5?'Add customers to begin':pct<50?'Building…':pct<90?'Looking great…':'Full picture 🎉'}</span>
@@ -373,9 +374,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
           }
         </div>
 
-        <p style={{fontSize:'0.86rem',color:'var(--text3)',marginBottom:'0.08rem'}}>
-          {'Tap a slot · choose type · pick services'}
-        </p>
+
 
         <div className="cust-grid">
           {slots.map((s,i)=>{
@@ -395,7 +394,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
                     <span style={{fontSize:'0.74rem',fontWeight:'700',color:s.type==='home'?'var(--purple)':'var(--blue)'}}>{s.svcs} services</span>
                     {s.type==='home'&&s.svcs>0&&<span style={{fontSize:'0.74rem',fontWeight:'700',color:'var(--text2)'}}>£{cbAmount(s.svcs)}</span>}
                     {s.type==='rent'&&<span style={{fontSize:'0.86rem',color:'var(--blue)',fontWeight:'600'}}>£{tenantRate(s.svcs).toFixed(2)}</span>}
-                    {isP&&<span style={{fontSize:'0.98rem'}}>💎</span>}
+{isP&&<span style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2.2rem',opacity:0.35,pointerEvents:'none',lineHeight:1}}>💎</span>}
                   </>
                 )}
               </div>
@@ -408,24 +407,24 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
             background:earnings.hasPartner?'rgba(219,39,119,0.08)':'rgba(124,58,237,0.05)',
             border:earnings.hasPartner?'1.5px solid rgba(219,39,119,0.3)':'1.5px dashed rgba(124,58,237,0.2)',
             transition:'all 0.3s'}}>
-            {!earnings.hasPartner&&<p style={{fontSize:'0.9rem',color:'var(--text3)',lineHeight:1.5,marginBottom:'0.4rem'}}>Try different customer types to see how your earnings change — then when you're ready:</p>}
+
           {earnings.hasPartner?(
               <div style={{textAlign:'center',padding:'0.3rem 0 0.5rem'}}>
                 <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
                 <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
               </div>
             ):(
-              <p style={{fontSize:'1rem',color:'var(--text2)',lineHeight:1.5,marginBottom:'0.5rem'}}>One of those customers is bound to want to share UW with their own network. Hold any customer to upgrade them to a Partner 💎</p>
+              <p style={{fontSize:'1rem',color:'var(--text2)',lineHeight:1.5,marginBottom:'0.5rem'}}>Hold any customer to upgrade them to a Partner 💎</p>
             )}
             {earnings.hasPartner&&(
               <button className="btn-next" style={{marginTop:0}} onClick={scrollToNext}>See how it all adds up ↓</button>
             )}
           </div>
         )}
-        {selected!==null&&selected>0&&!earnings.allFilled&&(
+        {selected!==null&&(
           <div className="picker">
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.5rem'}}>
-              <span style={{fontSize:'1.08rem',fontWeight:'700'}}>Customer {selected}</span>
+              <span style={{fontSize:'1.08rem',fontWeight:'700'}}>Tap a type · pick services</span>
               {sel?.type&&<button onClick={clearSlot} style={{background:'none',border:'none',fontSize:'0.86rem',color:'var(--text3)',cursor:'pointer',textDecoration:'underline'}}>Remove</button>}
             </div>
             <div className="type-grid">
@@ -437,7 +436,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
               <div className="svc-grid">
                 {[1,2,3,4].map(n=>(
                   <button key={n} className={`svc-btn${(()=>{const committed=sel?.svcs>0;const t=pickerType||sel?.type;if(committed&&sel.svcs===n)return t==='home'?' s-home':t==='rent'?' s-rent':'';if(!committed&&n===3)return' s-pre';return'';})()}`} onClick={()=>setSvcs(n)}>
-                    {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400',opacity:(pickerType||sel?.type)==='home'?1:0}}>{`£${cbAmount(n)}`}</span>
+                    {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400',opacity:1}}>{(pickerType||sel?.type)==='rent'?['','£1.40/m','£2.50/m','£3.10/m','£3.75/m'][n]:`£${cbAmount(n)}`}</span>
                   </button>
                 ))}
               </div>
@@ -448,7 +447,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
         )}
 
 
-        {!earnings.allFilled&&<div className="coach" style={{marginTop:'0.45rem'}}>{coachMsg}</div>}
+        {(!earnings.allFilled||!earnings.hasPartner)&&<div className="coach" style={{marginTop:'0.45rem'}}>{coachMsg}</div>}
 
 
         <div style={{height:'0.75rem'}}/>
@@ -458,8 +457,8 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
         <div className="celeb-overlay" onClick={()=>setShowCeleb(false)}>
           <div className="celeb-card" onClick={e=>e.stopPropagation()}>
             <div style={{fontSize:'2.4rem',marginBottom:'0.45rem'}}>🎉</div>
-            <h2 className="display d-md" style={{marginBottom:'0.32rem'}}><span className="grad-text">£{earnings.total.toLocaleString()}</span></h2>
-            <p style={{color:'var(--text2)',fontSize:'1.05rem',lineHeight:1.65,marginBottom:'1.1rem'}}>What an achievement in your first 30 days!<br/>What would that mean to you?</p>
+            <h2 className="display d-md" style={{marginBottom:'0.32rem'}}><span className="grad-text">£{Math.ceil(earnings.total).toLocaleString()}</span></h2>
+            <p style={{color:'var(--text2)',fontSize:'1.05rem',lineHeight:1.65,marginBottom:'1.1rem'}}>What an achievement<br/>in your first 30 days!<br/>What would that mean to you?</p>
             <button className="btn-primary" style={{justifyContent:'center',marginBottom:'0.45rem'}} onClick={()=>{setShowCeleb(false);onCelebDone();setTimeout(scrollToNext,300);}}>
               See how it all adds up →
             </button>
@@ -481,8 +480,8 @@ function ChBreakdown({earnings,scrollToNext}){
     {id:'hab',icon:'🔥',label:'High Activity Bonus',value:earnings.totalHAB,colour:'var(--orange)',available:earnings.habQ>=2,lockedHint:'2+ homeowners with 3+ services',desc:'Extra reward for multiple high-service homeowners in a calendar month.',
       detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>2–3 qualifying homeowners</span><span style={{fontWeight:'700'}}>£50 each</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>4+ qualifying homeowners</span><span style={{fontWeight:'700'}}>£100 each</span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem'}}>💡 Combined with Customer Bonus — up to £400 per homeowner.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the High Activity Bonus and how to qualify")}`} style={{color:'var(--orange)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about the High Activity Bonus →</a></p></div>
     },
-    {id:'ri',icon:'🔄',label:'Recurring Income',value:earnings.annualResidual,colour:'var(--blue)',available:earnings.qualifyQD&&earnings.tenantCount>0,lockedHint:!earnings.qualifyQD?'Unlocks at 3 customers (QD)':'Add a tenant to activate',desc:"Monthly income from tenant customers' bills — paid every month.",
-      detail:<div>{[[1,'~£1.40/mo',['energy']],[2,'~£2.50/mo',['+ broadband']],[3,'~£3.10/mo',['+ mobile']]].map(([n,v,d])=><div key={n} className="info-row" style={{justifyContent:'space-between'}}><span>{n} service{n>1?'s':''} <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>{d}</span></span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.45}}>💡 Tenant residual flows from day one — no deferral. Keeps paying every month, and grows as your team does.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about how recurring income builds over time")}`} style={{color:'var(--blue)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about recurring income →</a></p></div>
+    {id:'ri',icon:'🔄',label:'Recurring Income',value:earnings.monthlyResidual,colour:'var(--blue)',available:earnings.qualifyQD&&earnings.tenantCount>0,lockedHint:!earnings.qualifyQD?'Unlocks at 3 customers (QD)':'Add a tenant to activate',desc:"Monthly income from tenant customers' bills — paid every month.",
+      detail:<div>{[[1,'£1.40/mo','(energy)'],[2,'£2.50/mo','(+ broadband)'],[3,'£3.10/mo','(+ mobile)']].map(([n,v,d])=><div key={n} className="info-row" style={{justifyContent:'space-between'}}><span>{n} service{n>1?'s':''} <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>{d}</span></span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.45}}>💡 Tenant residual flows from day one — no deferral. Keeps paying every month, and grows as your team does.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about how recurring income builds over time")}`} style={{color:'var(--blue)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about recurring income →</a></p></div>
     },
     {id:'fs',icon:'🚀',label:'Fast Start Bonus',value:earnings.fastStarter,colour:'var(--green)',available:earnings.fastStarter>0,lockedHint:'Complete QD* within 30 days',desc:'Up to £500 for reaching your first milestone within 30 days.',
       detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>Promotion Bonus</span><span style={{fontWeight:'700'}}>£200</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>Fast Start Bonus <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>(within 30 days)</span></span><span style={{fontWeight:'700'}}>£300</span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.5}}>💡 UW rewards partners who start strong. Reach QD* in your first 30 days — 6 customers including yourself, plus one partner — and you're paid for the momentum.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the Fast Start Bonus and what I need to do in the first 30 days")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about getting started →</a></p></div>
@@ -511,7 +510,7 @@ function ChBreakdown({earnings,scrollToNext}){
                     <p style={{fontSize:'1rem',color:'var(--text3)',marginTop:'0.07rem',lineHeight:1.3}}>{s.desc}</p>
                   </div>
                   <div style={{display:'flex',alignItems:'center',gap:'0.32rem',flexShrink:0}}>
-                    <span style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.05rem',color:s.available&&s.value>0?s.colour:'var(--text3)'}}>{s.value>0?`£${s.value.toLocaleString()}`:'—'}</span>
+                    <span style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.05rem',color:s.available&&s.value>0?s.colour:'var(--text3)'}}>{s.value>0?`£${s.id==='ri'?Number(s.value).toFixed(2):s.value.toLocaleString()}`:'—'}</span>
                     <span style={{color:'var(--text3)',fontSize:'1rem',display:'block',transition:'transform 0.3s',transform:isOpen?'rotate(180deg)':'rotate(0deg)'}}>▾</span>
                   </div>
                 </div>
@@ -524,7 +523,7 @@ function ChBreakdown({earnings,scrollToNext}){
           <div className="card card-tinted">
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
               <div><p className="eyebrow" style={{fontSize:'0.98rem',marginBottom:'0.08rem'}}>Total estimated</p><p style={{fontSize:'0.86rem',color:'var(--text3)'}}>5 conversations · first 30 days</p></div>
-              <span className="display d-md grad-text">£{earnings.total.toLocaleString()}</span>
+              <span className="display d-md grad-text">£{Math.ceil(earnings.total).toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -575,17 +574,19 @@ function ChDuplication({earnings,scrollToNext}){
         </div>
 
         <div style={{borderRadius:'0.95rem',padding:'0.85rem',background:'rgba(245,158,11,0.06)',border:'1px solid rgba(245,158,11,0.2)',marginBottom:'0.65rem'}}>
-          <p className="eyebrow" style={{fontSize:'0.98rem',marginBottom:'0.45rem',color:'rgba(245,158,11,0.8)'}}>One partner a month · twelve months</p>
-
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem'}}>
+          <p className="eyebrow" style={{fontSize:'0.98rem',marginBottom:'0.08rem',color:'rgba(245,158,11,0.8)'}}>Keep building · {earnings.introducedCount} customer{earnings.introducedCount!==1?'s':''} a month · 1 partner a month</p>
+          <p style={{fontSize:'0.86rem',color:'var(--text3)',marginBottom:'0.55rem'}}>Twelve month picture</p>
+          <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
             {[
-              {label:'Mentor bonuses',value:`£${annualMentorIncome.toLocaleString()}`},
-              {label:'Supporting bonuses',value:`£${annualSupportIncome.toLocaleString()}`},
-              {label:'Group residual',value:`£${Math.round(earnings.totalSvcs*0.08*12)}/yr`},
-            ].map(({label,value},i)=>(
-              <div key={i} style={{padding:'0.5rem 0.4rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)',textAlign:'center'}}>
-                <p style={{fontSize:'0.98rem',color:'var(--text3)',marginBottom:'0.08rem',lineHeight:1.3}}>{label}</p>
-                <p style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.08rem',background:'var(--grad)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{value}</p>
+              {label:'Personal activity',sublabel:`your ${earnings.introducedCount} customer${earnings.introducedCount!==1?'s':''} × 12 months`,value:Math.ceil((earnings.total-earnings.fastStarter)*12)},
+              {label:'Supporting activity',sublabel:'from your partner\u2019s first 30 days × 12',value:Math.ceil(ch3Total*12)},
+            ].map(({label,sublabel,value},i)=>(
+              <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.55rem 0.65rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)'}}>
+                <div>
+                  <p style={{fontSize:'0.93rem',fontWeight:'700',lineHeight:1.3}}>{label}</p>
+                  <p style={{fontSize:'0.84rem',color:'var(--text3)',lineHeight:1.3}}>{sublabel}</p>
+                </div>
+                <p style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.15rem',background:'var(--grad)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',flexShrink:0,marginLeft:'0.5rem'}}>£{value.toLocaleString()}</p>
               </div>
             ))}
           </div>
@@ -670,7 +671,7 @@ function App(){
 
   const earnings=useMemo(()=>calcAll(slots,includeYou),[slots,includeYou]);
 
-  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner)setCh2on(true);},[earnings.allFilled,earnings.hasPartner]);
+  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner){setCh2on(true);setCh3on(true);}},[earnings.allFilled,earnings.hasPartner]);
 
   useEffect(()=>{
     const el=snapRef.current;if(!el)return;
@@ -709,8 +710,8 @@ function App(){
           ?<ChBuilder slots={slots} setSlots={setSlots} includeYou={includeYou} setIncludeYou={setIncludeYou} earnings={earnings} onCelebDone={handleCelebDone} scrollToNext={()=>goTo(2)}/>
           :<div className="chapter" style={{minHeight:'100dvh'}}/>
         }
-        {ch2on?<ChBreakdown earnings={earnings} scrollToNext={()=>{setCh3on(true);goTo(3);}}/>:<ChLocked label="How it adds up" hint="Head back to the earnings tool, add some customers and upgrade one to a Partner 💎 — then this unlocks."/>}
-        {ch3on?<ChDuplication earnings={earnings} scrollToNext={()=>goTo(4)}/>:<ChLocked label="There's more to see" hint="Once you've built your customer mix and upgraded a Partner 💎, scroll back to see what happens when they do the same."/>}
+        {ch2on?<ChBreakdown earnings={earnings} scrollToNext={()=>{setCh3on(true);goTo(3);}}/>:<ChLocked label="How it adds up" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
+        {ch3on?<ChDuplication earnings={earnings} scrollToNext={()=>goTo(4)}/>:<ChLocked label="There's more to see" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
         <ChCTA earnings={earnings}/>
       </div>
     </>
