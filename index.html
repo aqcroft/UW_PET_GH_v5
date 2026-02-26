@@ -83,8 +83,9 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .type-btn.t-rent{background:rgba(37,99,235,0.12);border-color:var(--blue);color:var(--blue);}
 .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.32rem;}
 .svc-btn{padding:0.5rem 0.15rem;border-radius:0.55rem;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-family:var(--font-body);font-size:1.1rem;font-weight:700;cursor:pointer;transition:all 0.15s;text-align:center;-webkit-tap-highlight-color:transparent;line-height:1.3;min-height:2.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.svc-btn.t-home{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.35);}
+.svc-btn.t-rent{background:rgba(37,99,235,0.1);border-color:rgba(37,99,235,0.35);}
 .svc-btn.s-home{background:rgba(124,58,237,0.12);border-color:var(--purple);color:var(--purple);}
-.svc-btn.s-pre{border-color:var(--border);background:var(--bg2);}
 .svc-btn.s-rent{background:rgba(37,99,235,0.12);border-color:var(--blue);color:var(--blue);}
 
 .you-toggle{display:flex;align-items:center;gap:0.45rem;font-size:1.05rem;color:var(--text3);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
@@ -283,9 +284,10 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
   const prevTotal=useRef(0);
   const pressTimer=useRef({});
   const [pressing,setPressing]=useState(null);
+  const [pressingSvc,setPressingSvc]=useState(null);
 
   useEffect(()=>{if(earnings.total!==prevTotal.current){setPop(k=>k+1);prevTotal.current=earnings.total;}},[earnings.total]);
-  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner&&!celebDone.current){celebDone.current=true;boom();setTimeout(()=>setShowCeleb(true),2500);}},[earnings.allFilled,earnings.hasPartner]);
+  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner&&!celebDone.current){celebDone.current=true;setTimeout(()=>{boom();setShowCeleb(true);},400);}},[earnings.allFilled,earnings.hasPartner]);
 
   const coachMsg=useMemo(()=>{
     const filled=slots.slice(1).filter(s=>s.type!==null).length;
@@ -340,8 +342,20 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
     });
     const nextEmpty=slots.findIndex((sl,i)=>i>selected&&i>0&&sl.type===null);
     setPickerType(null);
-    if(nextEmpty>-1){setSelected(nextEmpty);setPickerType(null);}
-    else setSelected(selected);
+    setTimeout(()=>{
+      if(nextEmpty>-1){setSelected(nextEmpty);setPickerType(null);}
+      else setSelected(selected);
+    },350);
+  }
+  function setTypeAndSvcs(type,s){
+    if(selected===null)return;
+    setSlots(prev=>{const n=[...prev];n[selected]={type,svcs:s,isPartner:n[selected].isPartner||false};return n;});
+    setPickerType(null);
+    const nextEmpty=slots.findIndex((sl,i)=>i>selected&&i>0&&sl.type===null);
+    setTimeout(()=>{
+      if(nextEmpty>-1){setSelected(nextEmpty);setPickerType(null);}
+      else setSelected(selected);
+    },350);
   }
   function clearSlot(){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={type:null,svcs:0,isPartner:false};return n;});setPickerType(null);}
 
@@ -402,44 +416,40 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
           })}
         </div>
 
-        {earnings.allFilled&&(
+        {earnings.hasPartner&&(
           <div style={{marginTop:'0.45rem',padding:'0.7rem 0.8rem',borderRadius:'0.7rem',
-            background:earnings.hasPartner?'rgba(219,39,119,0.08)':'rgba(124,58,237,0.05)',
-            border:earnings.hasPartner?'1.5px solid rgba(219,39,119,0.3)':'1.5px dashed rgba(124,58,237,0.2)',
-            transition:'all 0.3s'}}>
-
-          {earnings.hasPartner?(
-              <div style={{textAlign:'center',padding:'0.3rem 0 0.5rem'}}>
-                <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
-                <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
-              </div>
-            ):(
-              <p style={{fontSize:'1rem',color:'var(--text2)',lineHeight:1.5,marginBottom:'0.5rem'}}>Hold any customer to upgrade them to a Partner 💎</p>
-            )}
-            {earnings.hasPartner&&(
-              <button className="btn-next" style={{marginTop:0}} onClick={scrollToNext}>See how it all adds up ↓</button>
-            )}
+            background:'rgba(219,39,119,0.08)',border:'1.5px solid rgba(219,39,119,0.3)',
+            textAlign:'center',transition:'all 0.3s'}}>
+            <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
+            <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
+            <button className="btn-next" style={{marginTop:'0.5rem'}} onClick={scrollToNext}>See how it all adds up ↓</button>
           </div>
         )}
         {selected!==null&&(
           <div className="picker">
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.5rem'}}>
-              <span style={{fontSize:'1.08rem',fontWeight:'700'}}>Tap a type · pick services</span>
-              {sel?.type&&<button onClick={clearSlot} style={{background:'none',border:'none',fontSize:'0.86rem',color:'var(--text3)',cursor:'pointer',textDecoration:'underline'}}>Remove</button>}
-            </div>
-            <div className="type-grid">
-              <button className={`type-btn${(pickerType||sel?.type)==='home'?' t-home':''}`} onClick={()=>setType('home')}>🏠 Homeowner</button>
-              <button className={`type-btn${(pickerType||sel?.type)==='rent'?' t-rent':''}`} onClick={()=>setType('rent')}>🏢 Renting</button>
-            </div>
-            <div style={{opacity:1,pointerEvents:(pickerType||sel?.type)?'auto':'none',minHeight:'5.5rem'}}>
-              <p style={{fontSize:'0.84rem',color:'var(--text3)',marginBottom:'0.3rem',fontWeight:'600'}}>'More services · more benefits · more income:'</p>
-              <div className="svc-grid">
-                {[1,2,3,4].map(n=>(
-                  <button key={n} className={`svc-btn${(()=>{const committed=sel?.svcs>0;const t=pickerType||sel?.type;if(committed&&sel.svcs===n)return t==='home'?' s-home':t==='rent'?' s-rent':'';if(!committed&&n===3)return' s-pre';return'';})()}`} onClick={()=>setSvcs(n)}>
-                    {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400',opacity:1}}>{(pickerType||sel?.type)==='rent'?['','£1.40/m','£2.50/m','£3.10/m','£3.75/m'][n]:`£${cbAmount(n)}`}</span>
-                  </button>
-                ))}
-              </div>
+
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
+              {[['home','🏠 Homeowner',['s-home','t-home'],[null,'£50','£100','£250','£300']],['rent','🏢 Renting',['s-rent','t-rent'],[null,'£1.40/m','£2.50/m','£3.10/m','£3.75/m']]].map(([type,label,classes,amounts])=>(
+                <div key={type}>
+                  <p style={{fontSize:'0.8rem',fontWeight:'700',color:type==='home'?'var(--purple)':'var(--blue)',marginBottom:'0.3rem',textAlign:'center'}}>{label}</p>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.32rem'}}>
+                    {[1,2,3,4].map(n=>{
+                      const isSelected=sel?.type===type&&sel?.svcs===n;
+                      return(
+                        <button key={n}
+                          className={`svc-btn${isSelected?' '+classes[0]:' '+classes[1]}`}
+                          style={{transform:pressingSvc===type+n?'scale(0.88)':'',transition:'transform 0.1s'}}
+                          onMouseDown={()=>setPressingSvc(type+n)} onMouseUp={()=>setPressingSvc(null)}
+                          onMouseLeave={()=>setPressingSvc(null)} onTouchStart={()=>setPressingSvc(type+n)}
+                          onTouchEnd={()=>setPressingSvc(null)}
+                          onClick={()=>setTypeAndSvcs(type,n)}>
+                          {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400'}}>{amounts[n]}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
 
 
@@ -607,7 +617,7 @@ function ChCTA({earnings}){
       <div className="chap-bar"><span className="eyebrow" style={{color:'rgba(124,58,237,0.7)'}}>Ready when you are</span></div>
       <div className="chapter-inner">
         <h2 className="display d-lg" style={{marginBottom:'0.32rem',lineHeight:1.1}}>
-          What would<br/><span className="grad-text">£{earnings.total>0?earnings.total.toLocaleString():'2,000'}</span><br/>mean to you?
+          What would<br/><span className="grad-text">£{earnings.total>0?Math.ceil(earnings.total).toLocaleString():'2,000'}</span><br/>mean to you?
         </h2>
         <p style={{color:'var(--text2)',fontSize:'1.05rem',lineHeight:1.65,marginBottom:'1.1rem'}}>The next step is yours — at whatever pace feels right.</p>
         <div style={{display:'flex',flexDirection:'column',gap:'0.55rem',marginBottom:'1.1rem'}}>
