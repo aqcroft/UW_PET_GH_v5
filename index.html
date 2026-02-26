@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +21,7 @@
   --bg:#f0edf8;--bg2:#e8e3f5;
   --surface:#fff;
   --border:rgba(124,58,237,0.12);--border2:rgba(124,58,237,0.22);
-  --text:#1a1525;--text2:#4a4468;--text3:#8b82a8;
+  --text:#0f0d1a;--text2:#1e1b35;--text3:#3d3660;
   --amber:#f59e0b;--green:#16a34a;--blue:#2563eb;--orange:#ea580c;
   --font-display:'Fraunces',serif;--font-body:'Nunito',sans-serif;
   --radius:1rem;
@@ -28,7 +30,7 @@
   --shadow-lg:0 8px 40px rgba(124,58,237,0.2);
 }
 html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:20px;line-height:1.5;-webkit-font-smoothing:antialiased;}
 body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(124,58,237,0.07) 1px,transparent 1px);background-size:24px 24px;pointer-events:none;z-index:0;}
 .blob{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0;animation:blob-float 14s ease-in-out infinite alternate;}
 .blob-1{width:360px;height:360px;background:rgba(219,39,119,0.07);top:-100px;right:-80px;}
@@ -50,12 +52,12 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .d-xl{font-size:clamp(2.5rem,10.5vw,3.3rem);font-weight:700;}
 .d-lg{font-size:clamp(1.85rem,7.5vw,2.4rem);font-weight:600;}
 .d-md{font-size:clamp(1.35rem,5.5vw,1.75rem);font-weight:600;}
-.eyebrow{font-size:0.67rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);font-family:var(--font-body);}
+.eyebrow{font-size:0.98rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);font-family:var(--font-body);}
 .grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;position:relative;overflow:hidden;box-shadow:var(--shadow);}
 .card-tinted{background:linear-gradient(135deg,rgba(124,58,237,0.06),rgba(219,39,119,0.04));border-color:var(--border2);}
-.pill{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.72rem;font-weight:700;font-family:var(--font-body);padding:0.28rem 0.65rem;border-radius:999px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);color:var(--purple);}
+.pill{display:inline-flex;align-items:center;gap:0.3rem;font-size:1.02rem;font-weight:700;font-family:var(--font-body);padding:0.28rem 0.65rem;border-radius:999px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);color:var(--purple);}
 
 .nav-dots{position:fixed;right:0.8rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:0.45rem;z-index:90;}
 .nav-dot{width:6px;height:6px;border-radius:50%;background:rgba(124,58,237,0.18);transition:all 0.3s;cursor:pointer;}
@@ -73,18 +75,18 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .slot-selected{box-shadow:0 0 0 2.5px var(--purple),0 0 12px rgba(124,58,237,0.25);}
 .slot-partner{box-shadow:0 0 0 2px rgba(219,39,119,0.5),0 0 10px rgba(219,39,119,0.18);}
 
-.picker{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:0.85rem;margin-top:0.4rem;animation:picker-in 0.2s cubic-bezier(0.34,1.3,0.64,1);box-shadow:var(--shadow-md);}
+.picker{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:0.85rem;margin-top:0.4rem;box-shadow:var(--shadow-md);}
 @keyframes picker-in{from{opacity:0;transform:translateY(6px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
 .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.6rem;}
-.type-btn{padding:0.55rem 0.4rem;border-radius:0.65rem;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-family:var(--font-body);font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;-webkit-tap-highlight-color:transparent;}
+.type-btn{padding:0.7rem 0.4rem;border-radius:0.65rem;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-family:var(--font-body);font-size:1.1rem;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;-webkit-tap-highlight-color:transparent;}
 .type-btn.t-home{background:rgba(124,58,237,0.12);border-color:var(--purple);color:var(--purple);}
 .type-btn.t-rent{background:rgba(37,99,235,0.12);border-color:var(--blue);color:var(--blue);}
 .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.32rem;}
-.svc-btn{padding:0.42rem 0.15rem;border-radius:0.55rem;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-family:var(--font-body);font-size:0.76rem;font-weight:700;cursor:pointer;transition:all 0.15s;text-align:center;-webkit-tap-highlight-color:transparent;line-height:1.3;}
+.svc-btn{padding:0.5rem 0.15rem;border-radius:0.55rem;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-family:var(--font-body);font-size:1.1rem;font-weight:700;cursor:pointer;transition:all 0.15s;text-align:center;-webkit-tap-highlight-color:transparent;line-height:1.3;min-height:2.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .svc-btn.s-home{background:rgba(124,58,237,0.12);border-color:var(--purple);color:var(--purple);}
 .svc-btn.s-rent{background:rgba(37,99,235,0.12);border-color:var(--blue);color:var(--blue);}
 
-.you-toggle{display:flex;align-items:center;gap:0.45rem;font-size:0.73rem;color:var(--text3);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.you-toggle{display:flex;align-items:center;gap:0.45rem;font-size:1.05rem;color:var(--text3);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .mini-track{width:1.9rem;height:1.05rem;border-radius:999px;background:rgba(0,0,0,0.1);position:relative;transition:background 0.2s;flex-shrink:0;}
 .mini-track.on{background:var(--purple);}
 .mini-thumb{position:absolute;top:1.5px;left:1.5px;width:0.75rem;height:0.75rem;border-radius:50%;background:white;box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:left 0.2s cubic-bezier(0.34,1.5,0.64,1);}
@@ -93,12 +95,12 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .earnings-hero{font-family:var(--font-display);font-weight:700;font-size:clamp(2.8rem,12vw,4.2rem);line-height:1;letter-spacing:-0.02em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 @keyframes num-spring{0%{transform:scale(1);}40%{transform:scale(1.08);}70%{transform:scale(0.97);}100%{transform:scale(1);}}
 .num-pop{animation:num-spring 0.4s cubic-bezier(0.34,1.56,0.64,1);}
-.prog-track{height:4px;border-radius:999px;background:var(--bg2);overflow:hidden;margin:0.35rem 0 0.22rem;}
+.prog-track{height:4px;border-radius:999px;background:var(--bg2);overflow:hidden;margin:0.35rem 0 0.22rem;flex-shrink:0;}
 .prog-fill{height:100%;border-radius:999px;background:var(--grad);transition:width 0.5s cubic-bezier(0.4,0,0.2,1);}
 
-.coach{font-size:0.76rem;color:var(--text);line-height:1.55;padding:0.55rem 0.8rem;border-radius:0.65rem;border-left:4px solid var(--purple);background:rgba(124,58,237,0.09);box-shadow:0 1px 8px rgba(124,58,237,0.08);transition:all 0.35s ease;}
+.coach{font-size:1.05rem;color:var(--text);line-height:1.55;padding:0.55rem 0.8rem;border-radius:0.65rem;border-left:4px solid var(--purple);background:rgba(124,58,237,0.09);box-shadow:0 1px 8px rgba(124,58,237,0.08);transition:all 0.35s ease;}
 .hab-dot{position:absolute;top:-4px;left:-4px;background:var(--orange);color:white;font-size:0.44rem;font-weight:800;padding:0.07rem 0.22rem;border-radius:999px;font-family:var(--font-body);white-space:nowrap;}
-.residual-strip{display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.65rem;border-radius:0.55rem;background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.15);margin-top:0.32rem;font-size:0.72rem;color:var(--blue);font-weight:600;}
+.residual-strip{display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.65rem;border-radius:0.55rem;background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.15);margin-top:0.32rem;font-size:1.02rem;color:var(--blue);font-weight:600;}
 
 .stream{border-radius:0.85rem;overflow:hidden;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);transition:box-shadow 0.2s;}
 .stream.open{box-shadow:var(--shadow-md);}
@@ -107,16 +109,16 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .stream-body.open{max-height:380px;}
 .stream-body-inner{padding:0 0.85rem 0.85rem;}
 .stream-divider{height:1px;background:var(--border);margin-bottom:0.6rem;}
-.info-row{display:flex;align-items:flex-start;gap:0.5rem;padding:0.5rem 0.65rem;border-radius:0.55rem;background:var(--bg2);margin:0.28rem 0;font-size:0.76rem;}
+.info-row{display:flex;align-items:flex-start;gap:0.5rem;padding:0.5rem 0.65rem;border-radius:0.55rem;background:var(--bg2);margin:0.28rem 0;font-size:0.93rem;}
 .badge{display:inline-flex;align-items:center;font-size:0.59rem;font-weight:700;padding:0.13rem 0.38rem;border-radius:999px;font-family:var(--font-body);letter-spacing:0.04em;}
 .badge-green{background:rgba(22,163,74,0.12);color:var(--green);border:1px solid rgba(22,163,74,0.25);}
 .badge-locked{background:rgba(139,130,168,0.1);color:var(--text3);border:1px solid rgba(139,130,168,0.2);}
 
 .btn-primary{display:flex;align-items:center;justify-content:space-between;gap:0.7rem;width:100%;padding:0.95rem 1.05rem;background:var(--grad);color:white;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:0.97rem;font-weight:700;box-shadow:0 6px 20px rgba(124,58,237,0.3);text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;-webkit-tap-highlight-color:transparent;}
 .btn-primary:active{transform:scale(0.98);box-shadow:0 2px 10px rgba(124,58,237,0.2);}
-.btn-secondary{display:flex;align-items:center;justify-content:space-between;gap:0.7rem;width:100%;padding:0.85rem 1.05rem;background:var(--surface);color:var(--text);border:1.5px solid var(--border2);border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:0.92rem;font-weight:600;text-decoration:none;transition:all 0.15s;box-shadow:var(--shadow);-webkit-tap-highlight-color:transparent;}
+.btn-secondary{display:flex;align-items:center;justify-content:space-between;gap:0.7rem;width:100%;padding:0.85rem 1.05rem;background:var(--surface);color:var(--text);border:1.5px solid var(--border2);border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:1.05rem;font-weight:600;text-decoration:none;transition:all 0.15s;box-shadow:var(--shadow);-webkit-tap-highlight-color:transparent;}
 .btn-ghost{display:flex;align-items:center;justify-content:space-between;gap:0.7rem;width:100%;padding:0.75rem 1.05rem;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:0.85rem;font-weight:600;text-decoration:none;transition:all 0.15s;-webkit-tap-highlight-color:transparent;}
-.btn-next{display:flex;align-items:center;justify-content:center;gap:0.45rem;width:100%;padding:0.7rem;background:rgba(124,58,237,0.07);border:1.5px solid rgba(124,58,237,0.2);border-radius:0.75rem;cursor:pointer;font-family:var(--font-body);font-size:0.8rem;font-weight:700;color:var(--purple);-webkit-tap-highlight-color:transparent;transition:all 0.15s;animation:pulse-border 2.5s ease-in-out infinite;}
+.btn-next{display:flex;align-items:center;justify-content:center;gap:0.45rem;width:100%;padding:0.95rem 1.05rem;background:var(--grad);color:white;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font-body);font-size:0.97rem;font-weight:700;box-shadow:0 6px 20px rgba(124,58,237,0.3);text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;-webkit-tap-highlight-color:transparent;}
 @keyframes pulse-border{0%,100%{border-color:rgba(124,58,237,0.18);}50%{border-color:rgba(124,58,237,0.42);}}
 
 .celeb-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(26,21,37,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fade-in 0.25s ease;}
@@ -126,7 +128,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .cf{position:fixed;pointer-events:none;z-index:250;animation:cf-fall var(--d,2s) var(--dl,0s) ease-in forwards;}
 @keyframes cf-fall{0%{opacity:1;transform:translateY(var(--sy,-20px)) rotate(0deg);}100%{opacity:0;transform:translateY(100vh) translateX(var(--dx,0px)) rotate(var(--r,720deg));}}
 
-.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.3rem;color:var(--text3);font-size:0.67rem;letter-spacing:0.05em;animation:sh-bounce 2.2s ease-in-out infinite;}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.3rem;color:var(--text3);font-size:0.98rem;letter-spacing:0.05em;animation:sh-bounce 2.2s ease-in-out infinite;}
 @keyframes sh-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 .sh-arrow{width:0.95rem;height:0.95rem;border-right:2px solid var(--text3);border-bottom:2px solid var(--text3);transform:rotate(45deg);margin-bottom:-0.22rem;}
 
@@ -148,7 +150,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
   border:1px solid rgba(124,58,237,0.2);
   border-radius:999px;
   box-shadow:0 4px 20px rgba(124,58,237,0.15);
-  font-family:var(--font-body);font-size:0.72rem;font-weight:700;
+  font-family:var(--font-body);font-size:1.02rem;font-weight:700;
   color:var(--purple);text-decoration:none;
   white-space:nowrap;
   transition:opacity 0.4s,transform 0.4s;
@@ -184,22 +186,36 @@ function cbAmount(svcs){return[0,50,100,250,300][svcs]||0;}
 function tenantRate(svcs){if(svcs<=1)return 1.40;if(svcs===2)return 2.50;if(svcs===3)return 3.10;return 3.75;}
 
 function calcAll(slots,includeYou){
-  const prospects=slots.slice(1);
+  const prospects=includeYou?slots.slice(1):slots;
   const totalCB=prospects.reduce((s,c)=>s+(c.type==='home'?cbAmount(c.svcs):0),0);
   const habQ=prospects.filter(c=>c.type==='home'&&c.svcs>=3).length;
   const habRate=habQ>=4?100:habQ>=2?50:0;
   const totalHAB=habRate*habQ;
-  const customerCount=(includeYou?1:0)+prospects.filter(c=>c.type!==null).length;
+  const customerCount=includeYou?1+slots.slice(1).filter(c=>c.type!==null).length:slots.filter(c=>c.type!==null).length;
   const qualifyQD=customerCount>=3;
   const tenants=prospects.filter(c=>c.type==='rent');
   const monthlyRaw=qualifyQD?tenants.reduce((s,c)=>s+tenantRate(c.svcs),0):0;
   const monthlyResidual=Math.round(monthlyRaw*10)/10;
   const annualResidual=Math.round(monthlyResidual*12);
-  const allFilled=prospects.every(c=>c.type!==null);
+  const allFilled=includeYou?slots.slice(1).every(c=>c.type!==null):slots.every(c=>c.type!==null);
   const hasPartner=prospects.some(c=>c.isPartner);
   const fastStarter=allFilled&&hasPartner?500:0;
   const total=totalCB+totalHAB+fastStarter+annualResidual;
-  return{totalCB,totalHAB,habRate,habQ,fastStarter,monthlyResidual,annualResidual,qualifyQD,customerCount,allFilled,hasPartner,tenantCount:tenants.length,total};
+  const totalSvcs=prospects.reduce((s,c2)=>s+(c2.type!==null?c2.svcs:0),0);
+  return{totalCB,totalHAB,habRate,habQ,fastStarter,monthlyResidual,annualResidual,qualifyQD,customerCount,allFilled,hasPartner,tenantCount:tenants.length,total,totalSvcs};
+}
+
+function YouTip(){
+  const [show,setShow]=useState(false);
+  const t=useRef(null);
+  function tap(e){e.stopPropagation();setShow(true);clearTimeout(t.current);t.current=setTimeout(()=>setShow(false),4000);}
+  useEffect(()=>()=>clearTimeout(t.current),[]);
+  return(
+    <span style={{position:'relative',display:'inline-flex',alignItems:'flex-start'}}>
+      <span onClick={tap} style={{cursor:'pointer',fontSize:'0.65rem',lineHeight:1,WebkitTapHighlightColor:'transparent',verticalAlign:'super',marginLeft:'0.1rem'}} title="tap for more">ℹ️</span>
+      {show&&<span style={{position:'absolute',top:'calc(100% + 6px)',right:0,background:'var(--surface)',border:'1px solid rgba(124,58,237,0.22)',borderRadius:'0.55rem',padding:'0.45rem 0.65rem',fontSize:'0.84rem',color:'var(--text)',lineHeight:1.55,width:'16rem',boxShadow:'0 8px 40px rgba(124,58,237,0.2)',zIndex:50}}>You count as your first customer — recommending services you already use. This counts toward your first milestone.</span>}
+    </span>
+  );
 }
 
 function boom(){
@@ -221,36 +237,33 @@ function ChHero({onBegin}){
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:'0.45rem'}}>
           <span className="pill">✦ Partner Earnings Tool</span>
-          <span style={{fontSize:'0.62rem',fontWeight:'800',letterSpacing:'0.08em',padding:'0.2rem 0.5rem',borderRadius:'999px',background:'rgba(245,158,11,0.12)',border:'1px solid rgba(245,158,11,0.3)',color:'#b45309',fontFamily:'var(--font-body)'}}>BETA</span>
+          <span style={{fontSize:'0.98rem',fontWeight:'800',letterSpacing:'0.08em',padding:'0.2rem 0.5rem',borderRadius:'999px',background:'rgba(245,158,11,0.12)',border:'1px solid rgba(245,158,11,0.3)',color:'#b45309',fontFamily:'var(--font-body)'}}>BETA</span>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <img src={CONTACT.photoUrl} alt={CONTACT.fullName} style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover',border:'1.5px solid rgba(124,58,237,0.3)'}} onError={e=>e.currentTarget.style.display='none'}/>
-          <span style={{fontSize:'0.73rem',color:'var(--text2)',fontWeight:'600'}}>{CONTACT.displayName}</span>
+          <span style={{fontSize:'1.05rem',color:'var(--text2)',fontWeight:'600'}}>{CONTACT.displayName}</span>
         </div>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',justifyContent:'center',gap:'1rem',padding:'1rem 0'}}>
         <div style={tr(0.1)}>
           <p className="eyebrow" style={{marginBottom:'0.45rem',color:'rgba(124,58,237,0.7)'}}>5 conversations · 30 days</p>
-          <h1 className="display d-xl" style={{marginBottom:'0.55rem'}}>What if five<br/>chats could earn<br/>you <span className="grad-text">around £2,000?</span></h1>
+          <h1 className="display d-xl" style={{marginBottom:'0.55rem'}}>What if five<br/>chats could earn<br/>you <span className="grad-text">£2,000?</span></h1>
         </div>
         <div style={tr(0.3)}>
-          <p style={{color:'var(--text2)',fontSize:'0.9rem',lineHeight:1.7,maxWidth:'32ch'}}>Not selling. Not cold calling.<br/>Just helping people switch services they already pay for — and getting rewarded when they do.</p>
+          <p style={{color:'var(--text2)',fontSize:'1.05rem',lineHeight:1.7,maxWidth:'32ch'}}>Not selling. Not cold calling.<br/>Just helping people switch services they already pay for — and getting rewarded when they do.</p>
         </div>
         <div style={{...tr(0.5),display:'flex',gap:'1rem',flexWrap:'wrap'}}>
           {[['⚡','Energy'],['🛜','Broadband'],['📲','Mobile'],['☔','Insurance']].map(([e,l])=>(
             <div key={l} style={{display:'flex',alignItems:'center',gap:'0.3rem'}}>
               <span style={{fontSize:'1rem'}}>{e}</span>
-              <span style={{fontSize:'0.7rem',color:'var(--text3)',fontWeight:'600'}}>{l}</span>
+              <span style={{fontSize:'1rem',color:'var(--text3)',fontWeight:'600'}}>{l}</span>
             </div>
           ))}
         </div>
         <div style={tr(0.65)}>
           <button className="btn-primary" onClick={onBegin} style={{justifyContent:'center',gap:'0.5rem',fontSize:'1.02rem',marginBottom:'0.45rem'}}>Show me the numbers ✦</button>
-          <p style={{textAlign:'center',fontSize:'0.68rem',color:'var(--text3)'}}>Takes 2 minutes · No sign-up needed</p>
+          <p style={{textAlign:'center',fontSize:'0.86rem',color:'var(--text3)'}}>Takes 2 minutes · No sign-up needed</p>
         </div>
-      </div>
-      <div style={{display:'flex',justifyContent:'center',paddingBottom:'0.5rem'}}>
-        <div className="scroll-hint" style={tr(0.85)}><div className="sh-arrow"/><span>scroll to explore</span></div>
       </div>
     </div>
   );
@@ -261,13 +274,16 @@ const EMPTY=Array.from({length:6},()=>({type:null,svcs:0,isPartner:false}));
 
 function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone,scrollToNext}){
   const [selected,setSelected]=useState(null);
+  const [pickerType,setPickerType]=useState(null);
   const [popKey,setPop]=useState(0);
   const [showCeleb,setShowCeleb]=useState(false);
   const celebDone=useRef(false);
   const prevTotal=useRef(0);
+  const pressTimer=useRef({});
+  const [pressing,setPressing]=useState(null);
 
   useEffect(()=>{if(earnings.total!==prevTotal.current){setPop(k=>k+1);prevTotal.current=earnings.total;}},[earnings.total]);
-  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner&&!celebDone.current){celebDone.current=true;boom();setShowCeleb(true);}},[earnings.allFilled,earnings.hasPartner]);
+  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner&&!celebDone.current){celebDone.current=true;boom();setTimeout(()=>setShowCeleb(true),2500);}},[earnings.allFilled,earnings.hasPartner]);
 
   const coachMsg=useMemo(()=>{
     const filled=slots.slice(1).filter(s=>s.type!==null).length;
@@ -279,27 +295,53 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
     if(earnings.habQ===1)return"🔥 One 3-service homeowner in the bag. Add a second this month and you activate the High Activity Bonus — £50 on each.";
     if(earnings.habQ===3)return"🔥 Three HAB customers! One more 3-service homeowner and your bonus jumps from £50 to £100 on all four. That's a £200 swing.";
     if(filled===0)return"👆 Tap an empty slot to add your first customer. Homeowners offer the biggest upfront reward.";
-    if(filled===1)return`Nice start! ${includeYou?"One more customer and your recurring income unlocks.":"Two more customers and your recurring income unlocks."}`;
-    if(filled===2)return`${includeYou?"Recurring income unlocks with your next customer — what type are they?":"One more and your monthly income starts flowing. What type is your next customer?"}`;
+    if(filled===1)return"Nice start! Keep going — recurring income unlocks at 3 customers.";
+    if(filled===2)return"One more and your monthly income starts flowing. What type is your next customer?";
     if(earnings.qualifyQD&&!earnings.allFilled){
       if(earnings.tenantCount>0)return`💙 Monthly income unlocked — £${Number(earnings.monthlyResidual).toFixed(2)}/month from ${earnings.tenantCount} tenant${earnings.tenantCount>1?'s':''}. Keep building!`;
       return"🎉 Recurring income unlocked! Add a tenant to start building monthly income alongside the upfront bonuses.";
     }
-    if(earnings.allFilled&&!earnings.hasPartner)return"Almost the full picture! Tap any customer slot and toggle 'Upgrade to Partner' to unlock the £500 Fast Start bonus 💎";
+    if(earnings.allFilled&&!earnings.hasPartner)return"Almost the full picture! Tap any customer below to upgrade them to a Partner 💎 and unlock the £500 Fast Start bonus.";
     if(earnings.allFilled&&earnings.hasPartner)return"🎉 That's the complete picture. Every number here is real — based on actual UW Partner earnings.";
     return"Try different customer types to see how your earnings change.";
   },[slots,earnings,selected]);
 
   function handleSlot(i){
-    if(i===0)return;
-    setSelected(selected===i?null:i);
+    if(i===0&&includeYou)return;
+    if(selected===i)return;
+    setPickerType(slots[i].type||null);
+    setSelected(i);
   }
   function togglePartner(i){
     setSlots(prev=>{const n=[...prev];n[i]={...n[i],isPartner:!n[i].isPartner};return n;});
   }
-  function setType(t){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={type:t,svcs:3,isPartner:false};return n;});}
-  function setSvcs(s){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={...n[selected],svcs:s};return n;});}
-  function clearSlot(){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={type:null,svcs:0,isPartner:false};return n;});setSelected(null);}
+  function startPress(i){
+    if(i===0||slots[i].type===null)return;
+    setPressing(i);
+    pressTimer.current[i]=setTimeout(()=>{
+      setPressing(null);
+      togglePartner(i);
+    },500);
+  }
+  function endPress(i){
+    clearTimeout(pressTimer.current[i]);
+    setPressing(null);
+  }
+  function setType(t){if(selected===null)return;setPickerType(t);}
+  function setSvcs(s){
+    if(selected===null||!pickerType)return;
+    const committedType=pickerType;
+    setSlots(prev=>{
+      const n=[...prev];
+      n[selected]={type:committedType,svcs:s,isPartner:n[selected].isPartner||false};
+      return n;
+    });
+    const nextEmpty=slots.findIndex((sl,i)=>i>selected&&i>0&&sl.type===null);
+    setPickerType(null);
+    if(nextEmpty>-1){setSelected(nextEmpty);setPickerType(null);}
+    else setSelected(null);
+  }
+  function clearSlot(){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={type:null,svcs:0,isPartner:false};return n;});setPickerType(null);}
 
   const sel=selected!==null?slots[selected]:null;
   const pct=Math.min(100,(earnings.total/2000)*100);
@@ -307,49 +349,52 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
   return(
     <div className="chapter-scroll">
       <div className="chap-bar">
-        <span className="eyebrow">Build your 5</span>
-        <label className="you-toggle" onClick={()=>setIncludeYou(v=>!v)}>
-          <div className={`mini-track${includeYou?' on':' off'}`}><div className="mini-thumb"/></div>
+        <span className="eyebrow">Build your 6</span>
+        <label className="you-toggle" onClick={()=>setIncludeYou(v=>!v)} style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
           <span>Include yourself</span>
+          <div className={`mini-track${includeYou?' on':' off'}`}><div className="mini-thumb"/></div>
+          <YouTip/>
         </label>
       </div>
       <div className="chapter-inner">
-        {includeYou&&<p style={{fontSize:'0.67rem',color:'rgba(219,39,119,0.6)',marginBottom:'0.28rem',lineHeight:1.4,fontStyle:'italic'}}>💡 You count as your first customer — recommending services you already use, and you count toward QD*.</p>}
 
         <div className="card card-tinted" style={{padding:'0.85rem 0.95rem',marginBottom:'0.45rem',textAlign:'center'}}>
-          <p className="eyebrow" style={{marginBottom:'0.18rem',fontSize:'0.6rem'}}>Your estimated earnings</p>
+          <p className="eyebrow" style={{marginBottom:'0.18rem',fontSize:'0.98rem'}}>Your estimated earnings</p>
           <div key={popKey} className="earnings-hero num-pop">£{earnings.total.toLocaleString()}</div>
           <div className="prog-track"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
-          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.63rem',color:'var(--text3)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.98rem',color:'var(--text3)'}}>
             <span>{pct<5?'Add customers to begin':pct<50?'Building…':pct<90?'Looking great…':'Full picture 🎉'}</span>
             <span>of around £2,000</span>
           </div>
-          {earnings.monthlyResidual>0&&<div className="residual-strip"><span>🔄 Monthly recurring</span><span>£{Number(earnings.monthlyResidual).toFixed(2)}/mo · £{earnings.annualResidual}/yr</span></div>}
+          {earnings.monthlyResidual>0
+            ?<div className="residual-strip"><span>🔄 Monthly recurring</span><span>£{Number(earnings.monthlyResidual).toFixed(2)}/mo · £{earnings.annualResidual}/yr</span></div>
+            :<div className="residual-strip" style={{opacity:0.35,filter:'grayscale(1)'}}><span>🔒 Monthly recurring</span><span>add a tenant to unlock</span></div>
+          }
         </div>
 
-        <p style={{fontSize:'0.68rem',color:'var(--text3)',marginBottom:'0.08rem'}}>
+        <p style={{fontSize:'0.86rem',color:'var(--text3)',marginBottom:'0.08rem'}}>
           {'Tap a slot · choose type · pick services'}
         </p>
 
         <div className="cust-grid">
           {slots.map((s,i)=>{
             const isYou=i===0,isSel=selected===i,isP=s.isPartner;
-            const cls=isYou?'slot-you':s.type==='home'?'slot-home':s.type==='rent'?'slot-rent':'slot-empty';
+            const cls=(isYou&&includeYou)?'slot-you':s.type==='home'?'slot-home':s.type==='rent'?'slot-rent':'slot-empty';
             const habShow=s.type==='home'&&s.svcs>=3&&earnings.habRate>0;
             return(
-              <div key={i} className={`cust-slot ${cls}${isSel?' slot-selected':''}${isP?' slot-partner':''}`} onClick={()=>handleSlot(i)} style={{gap:'0.06rem',minHeight:'2.85rem'}}>
+              <div key={i} className={`cust-slot ${cls}${isSel?' slot-selected':''}${isP?' slot-partner':''}${pressing===i?' slot-pressing':''}`} onClick={()=>handleSlot(i)} onMouseDown={()=>startPress(i)} onMouseUp={()=>endPress(i)} onMouseLeave={()=>endPress(i)} onTouchStart={()=>startPress(i)} onTouchEnd={()=>endPress(i)} style={{gap:'0.06rem',minHeight:'2.85rem',transform:pressing===i?'scale(0.88)':'',transition:'transform 0.1s'}}>
                 {habShow&&<div className="hab-dot">+£{earnings.habRate}</div>}
-                {isYou?(
-                  <><span style={{fontSize:'0.9rem'}}>{includeYou?'🙋':'👤'}</span><span style={{fontSize:'0.5rem',fontWeight:'800',color:'rgba(219,39,119,0.7)',letterSpacing:'0.04em'}}>YOU</span></>
+                {(isYou&&includeYou)?(
+                  <><span style={{fontSize:'1.05rem'}}>🙋</span><span style={{fontSize:'0.72rem',fontWeight:'800',color:'rgba(219,39,119,0.7)',letterSpacing:'0.04em'}}>YOU</span></>
                 ):s.type===null?(
                   <span style={{fontSize:'1.1rem',opacity:0.2,color:'var(--purple)'}}>+</span>
                 ):(
                   <>
-                    <span style={{fontSize:'0.9rem'}}>{s.type==='home'?'🏠':'🏢'}</span>
-                    <span style={{fontSize:'0.52rem',fontWeight:'700',color:s.type==='home'?'var(--purple)':'var(--blue)'}}>{s.svcs} services</span>
-                    {s.type==='home'&&s.svcs>0&&<span style={{fontSize:'0.52rem',fontWeight:'700',color:'var(--text2)'}}>£{cbAmount(s.svcs)}</span>}
-                    {s.type==='rent'&&<span style={{fontSize:'0.48rem',color:'var(--blue)',fontWeight:'600'}}>£{tenantRate(s.svcs).toFixed(2)}</span>}
-                    {isP&&<span style={{fontSize:'0.62rem'}}>💎</span>}
+                    <span style={{fontSize:'1.05rem'}}>{s.type==='home'?'🏠':'🏢'}</span>
+                    <span style={{fontSize:'0.74rem',fontWeight:'700',color:s.type==='home'?'var(--purple)':'var(--blue)'}}>{s.svcs} services</span>
+                    {s.type==='home'&&s.svcs>0&&<span style={{fontSize:'0.74rem',fontWeight:'700',color:'var(--text2)'}}>£{cbAmount(s.svcs)}</span>}
+                    {s.type==='rent'&&<span style={{fontSize:'0.86rem',color:'var(--blue)',fontWeight:'600'}}>£{tenantRate(s.svcs).toFixed(2)}</span>}
+                    {isP&&<span style={{fontSize:'0.98rem'}}>💎</span>}
                   </>
                 )}
               </div>
@@ -357,60 +402,54 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
           })}
         </div>
 
-        {selected!==null&&selected>0&&(
+        {earnings.allFilled&&(
+          <div style={{marginTop:'0.45rem',padding:'0.7rem 0.8rem',borderRadius:'0.7rem',
+            background:earnings.hasPartner?'rgba(219,39,119,0.08)':'rgba(124,58,237,0.05)',
+            border:earnings.hasPartner?'1.5px solid rgba(219,39,119,0.3)':'1.5px dashed rgba(124,58,237,0.2)',
+            transition:'all 0.3s'}}>
+            {!earnings.hasPartner&&<p style={{fontSize:'0.9rem',color:'var(--text3)',lineHeight:1.5,marginBottom:'0.4rem'}}>Try different customer types to see how your earnings change — then when you're ready:</p>}
+          {earnings.hasPartner?(
+              <div style={{textAlign:'center',padding:'0.3rem 0 0.5rem'}}>
+                <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
+                <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
+              </div>
+            ):(
+              <p style={{fontSize:'1rem',color:'var(--text2)',lineHeight:1.5,marginBottom:'0.5rem'}}>One of those customers is bound to want to share UW with their own network. Hold any customer to upgrade them to a Partner 💎</p>
+            )}
+            {earnings.hasPartner&&(
+              <button className="btn-next" style={{marginTop:0}} onClick={scrollToNext}>See how it all adds up ↓</button>
+            )}
+          </div>
+        )}
+        {selected!==null&&selected>0&&!earnings.allFilled&&(
           <div className="picker">
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.5rem'}}>
-              <span style={{fontSize:'0.78rem',fontWeight:'700'}}>Customer {selected}</span>
-              {sel?.type&&<button onClick={clearSlot} style={{background:'none',border:'none',fontSize:'0.68rem',color:'var(--text3)',cursor:'pointer',textDecoration:'underline'}}>Remove</button>}
+              <span style={{fontSize:'1.08rem',fontWeight:'700'}}>Customer {selected}</span>
+              {sel?.type&&<button onClick={clearSlot} style={{background:'none',border:'none',fontSize:'0.86rem',color:'var(--text3)',cursor:'pointer',textDecoration:'underline'}}>Remove</button>}
             </div>
             <div className="type-grid">
-              <button className={`type-btn${sel?.type==='home'?' t-home':''}`} onClick={()=>setType('home')}>🏠 Homeowner</button>
-              <button className={`type-btn${sel?.type==='rent'?' t-rent':''}`} onClick={()=>setType('rent')}>🏢 Renting</button>
+              <button className={`type-btn${(pickerType||sel?.type)==='home'?' t-home':''}`} onClick={()=>setType('home')}>🏠 Homeowner</button>
+              <button className={`type-btn${(pickerType||sel?.type)==='rent'?' t-rent':''}`} onClick={()=>setType('rent')}>🏢 Renting</button>
             </div>
-            {sel?.type&&(
-              <>
-                <p style={{fontSize:'0.64rem',color:'var(--text3)',marginBottom:'0.3rem',fontWeight:'600'}}>{sel.type==='home'?'Services — more = bigger bonus:':'Services — affects monthly income:'}</p>
-                <div className="svc-grid">
-                  {[1,2,3,4].map(n=>(
-                    <button key={n} className={`svc-btn${sel.svcs===n?(sel.type==='home'?' s-home':' s-rent'):''}`} onClick={()=>setSvcs(n)}>
-                      {n}<br/><span style={{fontSize:'0.58rem',fontWeight:'400'}}>{sel.type==='home'?`£${cbAmount(n)}`:''}</span>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {/* Partner toggle in picker */}
-            {sel?.type&&(
-              <div onClick={()=>togglePartner(selected)}
-                style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:'0.55rem',padding:'0.55rem 0.7rem',borderRadius:'0.65rem',cursor:'pointer',
-                  background:sel?.isPartner?'rgba(219,39,119,0.08)':'rgba(124,58,237,0.04)',
-                  border:sel?.isPartner?'1.5px solid rgba(219,39,119,0.3)':'1.5px dashed rgba(124,58,237,0.15)',
-                  WebkitTapHighlightColor:'transparent'}}>
-                <div>
-                  <p style={{fontSize:'0.76rem',fontWeight:'700',color:'var(--text)',marginBottom:'0.05rem'}}>Upgrade to Partner 💎</p>
-                  <p style={{fontSize:'0.64rem',color:'var(--text3)',lineHeight:1.35}}>Why wouldn't they recommend a good thing to their own network?</p>
-                </div>
-                <div style={{width:'2rem',height:'1.1rem',borderRadius:'999px',background:sel?.isPartner?'var(--pink)':'rgba(0,0,0,0.1)',position:'relative',flexShrink:0,transition:'background 0.2s'}}>
-                  <div style={{position:'absolute',top:'1.5px',left:sel?.isPartner?'calc(100% - 0.9rem)':'1.5px',width:'0.75rem',height:'0.75rem',borderRadius:'50%',background:'white',boxShadow:'0 1px 3px rgba(0,0,0,0.2)',transition:'left 0.2s cubic-bezier(0.34,1.5,0.64,1)'}}/>
-                </div>
+            <div style={{opacity:1,pointerEvents:(pickerType||sel?.type)?'auto':'none',minHeight:'5.5rem'}}>
+              <p style={{fontSize:'0.84rem',color:'var(--text3)',marginBottom:'0.3rem',fontWeight:'600'}}>'More services · more benefits · more income:'</p>
+              <div className="svc-grid">
+                {[1,2,3,4].map(n=>(
+                  <button key={n} className={`svc-btn${(sel?.svcs||3)===n?((pickerType||sel?.type)==='home'?' s-home':(pickerType||sel?.type)==='rent'?' s-rent':''):''}`} onClick={()=>setSvcs(n)}>
+                    {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400',opacity:(pickerType||sel?.type)==='home'?1:0}}>{`£${cbAmount(n)}`}</span>
+                  </button>
+                ))}
               </div>
-            )}
+            </div>
+
+
           </div>
         )}
 
-        {earnings.hasPartner&&(
-          <div style={{marginTop:'0.45rem',padding:'0.6rem 0.8rem',borderRadius:'0.7rem',background:'rgba(124,58,237,0.07)',border:'1px solid rgba(124,58,237,0.2)',display:'flex',alignItems:'center',gap:'0.45rem'}}>
-            <span style={{fontSize:'0.95rem'}}>💎</span>
-            <p style={{fontSize:'0.74rem',color:'var(--purple)',fontWeight:'600',lineHeight:1.3}}>Partner upgraded — £500 Fast Start bonus unlocked.</p>
-          </div>
-        )}
 
-        <div className="coach" style={{marginTop:'0.45rem'}}>{coachMsg}</div>
+        {!earnings.allFilled&&<div className="coach" style={{marginTop:'0.45rem'}}>{coachMsg}</div>}
 
-        {earnings.allFilled&&earnings.hasPartner&&(
-          <button className="btn-next" style={{marginTop:'0.6rem'}} onClick={scrollToNext}>See how it all adds up ↓</button>
-        )}
+
         <div style={{height:'0.75rem'}}/>
       </div>
 
@@ -419,11 +458,11 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
           <div className="celeb-card" onClick={e=>e.stopPropagation()}>
             <div style={{fontSize:'2.4rem',marginBottom:'0.45rem'}}>🎉</div>
             <h2 className="display d-md" style={{marginBottom:'0.32rem'}}><span className="grad-text">£{earnings.total.toLocaleString()}</span></h2>
-            <p style={{color:'var(--text2)',fontSize:'0.83rem',lineHeight:1.65,marginBottom:'1.1rem'}}>Five conversations. Thirty days.<br/>These are real numbers from the UW Partner plan.</p>
+            <p style={{color:'var(--text2)',fontSize:'1.05rem',lineHeight:1.65,marginBottom:'1.1rem'}}>What an achievement in your first 30 days!<br/>What would that mean to you?</p>
             <button className="btn-primary" style={{justifyContent:'center',marginBottom:'0.45rem'}} onClick={()=>{setShowCeleb(false);onCelebDone();setTimeout(scrollToNext,300);}}>
               See how it all adds up →
             </button>
-            <button onClick={()=>setShowCeleb(false)} style={{background:'none',border:'none',fontSize:'0.72rem',color:'var(--text3)',cursor:'pointer',width:'100%',padding:'0.25rem'}}>Keep exploring</button>
+            <button onClick={()=>setShowCeleb(false)} style={{background:'none',border:'none',fontSize:'1.05rem',color:'var(--text3)',cursor:'pointer',width:'100%',padding:'0.25rem'}}>(or keep exploring customer mix)</button>
           </div>
         </div>
       )}
@@ -436,25 +475,25 @@ function ChBreakdown({earnings,scrollToNext}){
   const [open,setOpen]=useState(null);
   const streams=[
     {id:'cb',icon:'🏠',label:'Customer Bonus',value:earnings.totalCB,colour:'var(--purple)',available:true,desc:"Paid upfront when a homeowner's services go live.",
-      detail:<div>{[[1,'£50'],[2,'£100'],[3,'£250'],[4,'£300']].map(([n,v])=><div key={n} className="info-row" style={{justifyContent:'space-between',marginBottom:0}}><span>{n} service{n>1?'s':''}</span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.68rem',color:'var(--text3)',fontStyle:'italic',lineHeight:1.45,marginTop:'0.35rem'}}>💡 UW advances residual income upfront for homeowners. The more services, the bigger the advance. Once this deferral period ends, homeowners also add to your monthly residual income — ask Adrian about the timings.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about recurring income from homeowners")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about homeowner recurring income →</a></p></div>
+      detail:<div>{[[1,'£50'],[2,'£100'],[3,'£250'],[4,'£300']].map(([n,v])=><div key={n} className="info-row" style={{justifyContent:'space-between',marginBottom:0}}><span>{n} service{n>1?'s':''}</span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',lineHeight:1.45,marginTop:'0.35rem'}}>💡 UW advances residual income upfront for homeowners. The more services, the bigger the advance. Once this deferral period ends, homeowners also add to your monthly residual income — ask Adrian about the timings.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about recurring income from homeowners")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about homeowner recurring income →</a></p></div>
     },
     {id:'hab',icon:'🔥',label:'High Activity Bonus',value:earnings.totalHAB,colour:'var(--orange)',available:earnings.habQ>=2,lockedHint:'2+ homeowners with 3+ services',desc:'Extra reward for multiple high-service homeowners in a calendar month.',
-      detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>2–3 qualifying homeowners</span><span style={{fontWeight:'700'}}>£50 each</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>4+ qualifying homeowners</span><span style={{fontWeight:'700'}}>£100 each</span></div><p style={{fontSize:'0.68rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem'}}>💡 Combined with Customer Bonus — up to £400 per homeowner.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the High Activity Bonus and how to qualify")}`} style={{color:'var(--orange)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about the High Activity Bonus →</a></p></div>
+      detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>2–3 qualifying homeowners</span><span style={{fontWeight:'700'}}>£50 each</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>4+ qualifying homeowners</span><span style={{fontWeight:'700'}}>£100 each</span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem'}}>💡 Combined with Customer Bonus — up to £400 per homeowner.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the High Activity Bonus and how to qualify")}`} style={{color:'var(--orange)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about the High Activity Bonus →</a></p></div>
     },
     {id:'ri',icon:'🔄',label:'Recurring Income',value:earnings.annualResidual,colour:'var(--blue)',available:earnings.qualifyQD&&earnings.tenantCount>0,lockedHint:!earnings.qualifyQD?'Unlocks at 3 customers (QD)':'Add a tenant to activate',desc:"Monthly income from tenant customers' bills — paid every month.",
-      detail:<div>{[[1,'~£1.40/mo',['energy']],[2,'~£2.50/mo',['+ broadband']],[3,'~£3.10/mo',['+ mobile']]].map(([n,v,d])=><div key={n} className="info-row" style={{justifyContent:'space-between'}}><span>{n} service{n>1?'s':''} <span style={{fontSize:'0.62rem',color:'var(--text3)'}}>{d}</span></span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.68rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.45}}>💡 Tenant residual flows from day one — no deferral. Keeps paying every month, and grows as your team does.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about how recurring income builds over time")}`} style={{color:'var(--blue)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about recurring income →</a></p></div>
+      detail:<div>{[[1,'~£1.40/mo',['energy']],[2,'~£2.50/mo',['+ broadband']],[3,'~£3.10/mo',['+ mobile']]].map(([n,v,d])=><div key={n} className="info-row" style={{justifyContent:'space-between'}}><span>{n} service{n>1?'s':''} <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>{d}</span></span><span style={{fontWeight:'700'}}>{v}</span></div>)}<p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.45}}>💡 Tenant residual flows from day one — no deferral. Keeps paying every month, and grows as your team does.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about how recurring income builds over time")}`} style={{color:'var(--blue)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about recurring income →</a></p></div>
     },
     {id:'fs',icon:'🚀',label:'Fast Start Bonus',value:earnings.fastStarter,colour:'var(--green)',available:earnings.fastStarter>0,lockedHint:'Complete QD* within 30 days',desc:'Up to £500 for reaching your first milestone within 30 days.',
-      detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>Promotion Bonus</span><span style={{fontWeight:'700'}}>£200</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>Fast Start Bonus <span style={{fontSize:'0.62rem',color:'var(--text3)'}}>(within 30 days)</span></span><span style={{fontWeight:'700'}}>£300</span></div><p style={{fontSize:'0.68rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.5}}>💡 UW rewards partners who start strong. Reach QD* in your first 30 days — 6 customers including yourself, plus one partner — and you're paid for the momentum.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the Fast Start Bonus and what I need to do in the first 30 days")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about getting started →</a></p></div>
+      detail:<div><div className="info-row" style={{justifyContent:'space-between'}}><span>Promotion Bonus</span><span style={{fontWeight:'700'}}>£200</span></div><div className="info-row" style={{justifyContent:'space-between'}}><span>Fast Start Bonus <span style={{fontSize:'0.98rem',color:'var(--text3)'}}>(within 30 days)</span></span><span style={{fontWeight:'700'}}>£300</span></div><p style={{fontSize:'0.86rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.32rem',lineHeight:1.5}}>💡 UW rewards partners who start strong. Reach QD* in your first 30 days — 6 customers including yourself, plus one partner — and you're paid for the momentum.<br/><a href={`https://wa.me/${CONTACT.whatsappNumber}?text=${encodeURIComponent("Hi Adrian, I've just used your earnings tool — I'd like to know more about the Fast Start Bonus and what I need to do in the first 30 days")}`} style={{color:'var(--purple)',textDecoration:'none',fontWeight:'600'}}>Ask {CONTACT.displayName} about getting started →</a></p></div>
     },
   ];
 
   return(
     <div className="chapter-scroll">
-      <div className="chap-bar"><span className="eyebrow">How it adds up</span><span style={{fontSize:'0.68rem',color:'var(--text3)'}}>Tap any to explore</span></div>
+      <div className="chap-bar"><span style={{fontSize:'0.86rem',color:'var(--text3)'}}>Tap any to explore</span></div>
       <div className="chapter-inner">
         <h2 className="display d-md" style={{marginBottom:'0.22rem',lineHeight:1.15}}>Four ways<br/>you get paid</h2>
-        <p style={{color:'var(--text2)',fontSize:'0.83rem',lineHeight:1.65,marginBottom:'0.75rem'}}>Each stream stacks on the last.</p>
+        <p style={{color:'var(--text2)',fontSize:'0.98rem',lineHeight:1.65,marginBottom:'0.75rem'}}>Each stream stacks on the last.</p>
         <div style={{display:'flex',flexDirection:'column',gap:'0.35rem'}}>
           {streams.map(s=>{
             const isOpen=open===s.id;
@@ -464,15 +503,15 @@ function ChBreakdown({earnings,scrollToNext}){
                   <span style={{fontSize:'1.05rem',flexShrink:0}}>{s.icon}</span>
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:'flex',alignItems:'center',gap:'0.32rem',flexWrap:'wrap'}}>
-                      <span style={{fontWeight:'700',fontSize:'0.83rem'}}>{s.label}</span>
+                      <span style={{fontWeight:'700',fontSize:'0.98rem'}}>{s.label}</span>
                       {s.available&&s.value>0&&<span className="badge badge-green">✓ Active</span>}
                       {!s.available&&<span className="badge badge-locked">{s.lockedHint}</span>}
                     </div>
-                    <p style={{fontSize:'0.66rem',color:'var(--text3)',marginTop:'0.07rem',lineHeight:1.3}}>{s.desc}</p>
+                    <p style={{fontSize:'1rem',color:'var(--text3)',marginTop:'0.07rem',lineHeight:1.3}}>{s.desc}</p>
                   </div>
                   <div style={{display:'flex',alignItems:'center',gap:'0.32rem',flexShrink:0}}>
-                    <span style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'0.9rem',color:s.available&&s.value>0?s.colour:'var(--text3)'}}>{s.value>0?`£${s.value.toLocaleString()}`:'—'}</span>
-                    <span style={{color:'var(--text3)',fontSize:'0.7rem',display:'block',transition:'transform 0.3s',transform:isOpen?'rotate(180deg)':'rotate(0deg)'}}>▾</span>
+                    <span style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.05rem',color:s.available&&s.value>0?s.colour:'var(--text3)'}}>{s.value>0?`£${s.value.toLocaleString()}`:'—'}</span>
+                    <span style={{color:'var(--text3)',fontSize:'1rem',display:'block',transition:'transform 0.3s',transform:isOpen?'rotate(180deg)':'rotate(0deg)'}}>▾</span>
                   </div>
                 </div>
                 <div className={`stream-body${isOpen?' open':''}`}>
@@ -483,7 +522,7 @@ function ChBreakdown({earnings,scrollToNext}){
           })}
           <div className="card card-tinted">
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-              <div><p className="eyebrow" style={{fontSize:'0.6rem',marginBottom:'0.08rem'}}>Total estimated</p><p style={{fontSize:'0.68rem',color:'var(--text3)'}}>5 conversations · first 30 days</p></div>
+              <div><p className="eyebrow" style={{fontSize:'0.98rem',marginBottom:'0.08rem'}}>Total estimated</p><p style={{fontSize:'0.86rem',color:'var(--text3)'}}>5 conversations · first 30 days</p></div>
               <span className="display d-md grad-text">£{earnings.total.toLocaleString()}</span>
             </div>
           </div>
@@ -504,7 +543,7 @@ function ChDuplication({earnings,scrollToNext}){
   const avgPartnerSvcs=3;
   const partnerCusts=6;
   const partnerGroupResidual=Math.round(partnerCusts*avgPartnerSvcs*0.08*12);
-  const ch3Total=supportingBonus+mentorBonus+partnerGroupResidual;
+  const ch3Total=supportingBonus+mentorBonus;
   const annualMentorIncome=mentorBonus*12;
   const annualSupportIncome=supportingBonus*12;
   const groupMonthlyResidual=Math.round(12*6*3*0.08); // 12 partners * 6 customers * 3 avg services * 8p
@@ -512,55 +551,45 @@ function ChDuplication({earnings,scrollToNext}){
 
   return(
     <div className="chapter-scroll">
-      <div className="chap-bar"><span className="eyebrow" style={{color:'rgba(219,39,119,0.7)'}}>Wait — there's more</span></div>
+      <div className="chap-bar"></div>
       <div className="chapter-inner">
         <h2 className="display d-md" style={{marginBottom:'0.32rem',lineHeight:1.15}}>Now imagine<br/>helping <span className="grad-text">one person</span><br/>do the same.</h2>
-        <p style={{color:'var(--text2)',fontSize:'0.83rem',lineHeight:1.65,marginBottom:'0.75rem'}}>That customer you just upgraded to a 💎 Partner? What if you helped them build exactly what you just built?</p>
+
 
         <div className="dup-card" style={{marginBottom:'0.65rem'}}>
-          <p className="eyebrow" style={{fontSize:'0.6rem',marginBottom:'0.35rem'}}>From that one partner's activity</p>
+          <p className="eyebrow" style={{fontSize:'0.98rem',marginBottom:'0.35rem'}}>From supporting their activity</p>
           <div className="dup-number">£{ch3Total.toLocaleString()}</div>
-          <p style={{fontSize:'0.7rem',color:'var(--text2)',marginTop:'0.18rem',marginBottom:'0.6rem'}}>in their first 30 days alone</p>
+          <p style={{fontSize:'1rem',color:'var(--text2)',marginTop:'0.18rem',marginBottom:'0.6rem'}}>in their first 30 days</p>
           <div className="stream-row">
-            <span style={{fontSize:'0.95rem'}}>🤝</span>
-            <div style={{flex:1}}><p style={{fontSize:'0.76rem',fontWeight:'700'}}>Supporting Bonus</p><p style={{fontSize:'0.66rem',color:'var(--text3)'}}>50% of their Customer Bonus while they find their feet</p></div>
-            <span style={{fontWeight:'700',fontSize:'0.82rem',color:'var(--purple)'}}>£{supportingBonus}</span>
+            <span style={{fontSize:'1.08rem'}}>🤝</span>
+            <div style={{flex:1}}><p style={{fontSize:'0.93rem',fontWeight:'700'}}>Supporting Bonus</p><p style={{fontSize:'1rem',color:'var(--text3)'}}>50% of their Customer Bonus while they find their feet</p></div>
+            <span style={{fontWeight:'700',fontSize:'0.98rem',color:'var(--purple)'}}>£{supportingBonus}</span>
           </div>
           <div className="stream-row">
-            <span style={{fontSize:'0.95rem'}}>🎓</span>
-            <div style={{flex:1}}><p style={{fontSize:'0.76rem',fontWeight:'700'}}>Mentor Fast Start Bonus</p><p style={{fontSize:'0.66rem',color:'var(--text3)'}}>When they reach QD* within 30 days</p></div>
-            <span style={{fontWeight:'700',fontSize:'0.82rem',color:'var(--green)'}}>£{mentorBonus>0?mentorBonus:'—'}</span>
+            <span style={{fontSize:'1.08rem'}}>🎓</span>
+            <div style={{flex:1}}><p style={{fontSize:'0.93rem',fontWeight:'700'}}>Mentor Fast Start Bonus</p><p style={{fontSize:'1rem',color:'var(--text3)'}}>When they introduce 6 customers including themselves and upgrade one to Partner 💎 within 30 days</p></div>
+            <span style={{fontWeight:'700',fontSize:'0.98rem',color:'var(--green)'}}>£{mentorBonus>0?mentorBonus:'—'}</span>
           </div>
-          <div className="stream-row">
-            <span style={{fontSize:'0.95rem'}}>📈</span>
-            <div style={{flex:1}}><p style={{fontSize:'0.76rem',fontWeight:'700'}}>Group Recurring Income</p><p style={{fontSize:'0.66rem',color:'var(--text3)'}}>A share of residual from their customers — every month</p></div>
-            <span style={{fontWeight:'700',fontSize:'0.82rem',color:'var(--blue)'}}>£{partnerGroupResidual}/yr</span>
-          </div>
+
         </div>
 
         <div style={{borderRadius:'0.95rem',padding:'0.85rem',background:'rgba(245,158,11,0.06)',border:'1px solid rgba(245,158,11,0.2)',marginBottom:'0.65rem'}}>
-          <p className="eyebrow" style={{fontSize:'0.6rem',marginBottom:'0.45rem',color:'rgba(245,158,11,0.8)'}}>One partner a month · twelve months</p>
-          <p style={{fontSize:'0.8rem',color:'var(--text2)',lineHeight:1.65,marginBottom:'0.6rem'}}>Most partners won't build a full team. Some will do very little. A few will surprise you. But if just <strong>one person a month</strong> did what you just did — here's what quietly builds up.</p>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.4rem'}}>
+          <p className="eyebrow" style={{fontSize:'0.98rem',marginBottom:'0.45rem',color:'rgba(245,158,11,0.8)'}}>One partner a month · twelve months</p>
+
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem'}}>
             {[
-              {label:'Mentor bonuses',value:`~£${annualMentorIncome.toLocaleString()}`},
-              {label:'Supporting bonuses',value:`~£${annualSupportIncome.toLocaleString()}`},
-              {label:'Group residual',value:`~£${groupMonthlyResidual}/mo`},
-              {label:'(~72 customers)',value:`£${groupAnnualResidual}/yr`},
-            ].map(({label,value})=>(
-              <div key={label} style={{padding:'0.5rem 0.6rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)'}}>
-                <p style={{fontSize:'0.6rem',color:'var(--text3)',marginBottom:'0.08rem'}}>{label}</p>
-                <p style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.05rem',background:'var(--grad)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{value}</p>
+              {label:'Mentor bonuses',value:`£${annualMentorIncome.toLocaleString()}`},
+              {label:'Supporting bonuses',value:`£${annualSupportIncome.toLocaleString()}`},
+              {label:'Group residual',value:`£${Math.round(earnings.totalSvcs*0.08*12)}/yr`},
+            ].map(({label,value},i)=>(
+              <div key={i} style={{padding:'0.5rem 0.4rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)',textAlign:'center'}}>
+                <p style={{fontSize:'0.98rem',color:'var(--text3)',marginBottom:'0.08rem',lineHeight:1.3}}>{label}</p>
+                <p style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.08rem',background:'var(--grad)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{value}</p>
               </div>
             ))}
           </div>
-          <p style={{fontSize:'0.65rem',color:'var(--text3)',fontStyle:'italic',marginTop:'0.5rem',lineHeight:1.5}}>Illustrative figures. Real results vary. What doesn't vary: the structure — and the fact that customers your partners introduce keep paying you every month, whether you're working that day or not.</p>
         </div>
 
-        <p style={{fontSize:'0.78rem',color:'var(--text2)',lineHeight:1.65,fontStyle:'italic',textAlign:'center',marginBottom:'0.65rem'}}>
-          "This is what I see when I look at this business.<br/>Not just income — a system that works when you don't."
-          <br/><span style={{fontSize:'0.68rem',color:'var(--text3)'}}>— Adrian</span>
-        </p>
 
         <button className="btn-next" onClick={scrollToNext}>Ready to talk? ↓</button>
         <div style={{height:'0.75rem'}}/>
@@ -578,40 +607,37 @@ function ChCTA({earnings}){
         <h2 className="display d-lg" style={{marginBottom:'0.32rem',lineHeight:1.1}}>
           What would<br/><span className="grad-text">£{earnings.total>0?earnings.total.toLocaleString():'2,000'}</span><br/>mean to you?
         </h2>
-        <p style={{color:'var(--text2)',fontSize:'0.85rem',lineHeight:1.65,marginBottom:'1.1rem'}}>Every figure in this tool reflects real earnings from the UW Partner plan. The next step is yours — at whatever pace feels right.</p>
+        <p style={{color:'var(--text2)',fontSize:'1.05rem',lineHeight:1.65,marginBottom:'1.1rem'}}>The next step is yours — at whatever pace feels right.</p>
         <div style={{display:'flex',flexDirection:'column',gap:'0.55rem',marginBottom:'1.1rem'}}>
           <a href={CONTACT.registerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-            <div><div style={{fontSize:'0.63rem',opacity:0.75,fontWeight:'400',marginBottom:'0.06rem'}}>I'm ready to go</div><div>Get registered</div></div>
+            <div><div style={{fontSize:'0.98rem',opacity:0.75,fontWeight:'400',marginBottom:'0.06rem'}}>I'm ready to go</div><div>Get registered</div></div>
             <span style={{fontSize:'1.35rem'}}>🔥</span>
           </a>
           <a href={CONTACT.calendarUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">
-            <div><div style={{fontSize:'0.63rem',color:'var(--text3)',fontWeight:'400',marginBottom:'0.06rem'}}>I have questions first</div><div>Book a conversation</div></div>
+            <div><div style={{fontSize:'0.98rem',color:'var(--text3)',fontWeight:'400',marginBottom:'0.06rem'}}>I have questions first</div><div>Book a conversation</div></div>
             <span style={{fontSize:'1.25rem'}}>🗓️</span>
           </a>
           <a href={CONTACT.savingsUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-            <div><div style={{fontSize:'0.63rem',color:'var(--text3)',fontWeight:'400',marginBottom:'0.06rem'}}>Not sure yet</div><div>See the customer savings first</div></div>
+            <div><div style={{fontSize:'0.98rem',color:'var(--text3)',fontWeight:'400',marginBottom:'0.06rem'}}>Not sure yet</div><div>See the customer savings first</div></div>
             <span style={{fontSize:'1.05rem'}}>💡</span>
           </a>
         </div>
         <div className="divider"/>
         <div style={{display:'flex',alignItems:'center',gap:'0.7rem',marginBottom:'0.7rem'}}>
           <img src={CONTACT.photoUrl} alt={CONTACT.fullName} style={{width:'2.6rem',height:'2.6rem',borderRadius:'50%',objectFit:'cover',border:'1.5px solid var(--border2)',flexShrink:0}} onError={e=>e.currentTarget.style.display='none'}/>
-          <div><p style={{fontWeight:'700',fontSize:'0.85rem'}}>{CONTACT.fullName}</p><p style={{fontSize:'0.68rem',color:'var(--text3)'}}>{CONTACT.title}</p></div>
+          <div><p style={{fontWeight:'700',fontSize:'1rem'}}>{CONTACT.fullName}</p><p style={{fontSize:'0.86rem',color:'var(--text3)'}}>{CONTACT.title}</p></div>
         </div>
         <div style={{display:'flex',gap:'0.4rem',marginBottom:'1.1rem'}}>
           {[{href:waUrl(),label:'WhatsApp',icon:'💬'},{href:mailUrl(),label:'Email',icon:'✉️'},{href:`tel:${CONTACT.phone}`,label:'Call',icon:'📞'}].map(b=>(
-            <a key={b.label} href={b.href} target="_blank" rel="noopener noreferrer" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:'0.28rem',padding:'0.48rem 0.28rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)',color:'var(--text2)',fontSize:'0.73rem',fontWeight:'600',textDecoration:'none',boxShadow:'var(--shadow)'}}>
+            <a key={b.label} href={b.href} target="_blank" rel="noopener noreferrer" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:'0.28rem',padding:'0.48rem 0.28rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)',color:'var(--text2)',fontSize:'1.05rem',fontWeight:'600',textDecoration:'none',boxShadow:'var(--shadow)'}}>
               <span>{b.icon}</span><span>{b.label}</span>
             </a>
           ))}
         </div>
         <div style={{textAlign:'center',margin:'0.75rem 0'}}>
-          <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer"
-            style={{fontSize:'0.72rem',color:'var(--text3)',textDecoration:'none',display:'inline-flex',alignItems:'center',gap:'0.3rem',borderBottom:'1px solid rgba(139,130,168,0.3)',paddingBottom:'0.1rem'}}>
-            <span>✍️</span><span>Using this during beta? Share your feedback</span>
-          </a>
         </div>
-        <p style={{fontSize:'0.58rem',color:'var(--text3)',textAlign:'center',lineHeight:1.6}}>Earnings are illustrative based on typical UW Partner activity. Actual results depend on individual effort and circumstances. UW Partner agreement applies.</p>
+        
+        <p style={{fontSize:'0.86rem',color:'var(--text3)',textAlign:'center',lineHeight:1.6}}>Illustrative figures. Actual results depend on individual effort and circumstances.</p>
         <div style={{height:'0.75rem'}}/>
       </div>
     </div>
@@ -624,7 +650,7 @@ function ChLocked({label}){
     <div className="chapter locked-ch" style={{scroll_snap_align:'start'}}>
       <div style={{fontSize:'1.8rem',marginBottom:'0.6rem'}}>🔒</div>
       <p style={{fontFamily:'var(--font-display)',fontWeight:'600',fontSize:'1.05rem',marginBottom:'0.32rem'}}>{label}</p>
-      <p style={{fontSize:'0.75rem',color:'var(--text3)'}}>Complete the builder to unlock</p>
+      <p style={{fontSize:'0.75rem',color:'var(--text3)'}}>Upgrade a customer to a Partner 💎 to unlock this</p>
     </div>
   );
 }
@@ -649,6 +675,7 @@ function App(){
     const el=snapRef.current;if(!el)return;
     function onScroll(){
       const idx=Math.round(el.scrollTop/window.innerHeight);
+      if(idx>=1)setStarted(true);
       setActiveIdx(Math.max(0,Math.min(idx,4)));
     }
     el.addEventListener('scroll',onScroll,{passive:true});
@@ -665,7 +692,7 @@ function App(){
   return(
     <>
       <div className="blob blob-1"/><div className="blob blob-2"/><div className="blob blob-3"/>
-      <FeedbackFloat visible={started}/>
+
       <div className="nav-dots">
         {Array.from({length:dots},(_,i)=>(
           <div key={i} className={`nav-dot${activeIdx===i?' active':''}${i<activeIdx?' done':''}`}
@@ -694,9 +721,9 @@ function FeedbackFloat({visible}){
   return(
     <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer"
       className={`feedback-float${visible?'':' hidden'}`}>
-      <span style={{fontSize:'0.85rem'}}>✍️</span>
+      <span style={{fontSize:'1rem'}}>✍️</span>
       <span>Share feedback</span>
-      <span style={{fontSize:'0.6rem',fontWeight:'800',padding:'0.15rem 0.38rem',borderRadius:'999px',background:'rgba(245,158,11,0.15)',border:'1px solid rgba(245,158,11,0.3)',color:'#b45309',letterSpacing:'0.06em',marginLeft:'0.1rem'}}>BETA</span>
+      <span style={{fontSize:'0.98rem',fontWeight:'800',padding:'0.15rem 0.38rem',borderRadius:'999px',background:'rgba(245,158,11,0.15)',border:'1px solid rgba(245,158,11,0.3)',color:'#b45309',letterSpacing:'0.06em',marginLeft:'0.1rem'}}>BETA</span>
     </a>
   );
 }
