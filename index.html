@@ -72,7 +72,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .slot-home{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.08));border:1.5px solid rgba(124,58,237,0.3);}
 .slot-rent{background:linear-gradient(135deg,rgba(37,99,235,0.15),rgba(37,99,235,0.08));border:1.5px solid rgba(37,99,235,0.3);}
 .slot-you{background:linear-gradient(135deg,rgba(219,39,119,0.12),rgba(219,39,119,0.06));border:1.5px solid rgba(219,39,119,0.3);cursor:default;}
-.slot-selected{box-shadow:0 0 0 2.5px var(--purple),0 0 12px rgba(124,58,237,0.25);}
+.slot-selected{box-shadow:0 0 0 1.5px rgba(124,58,237,0.4);}
 .slot-partner{box-shadow:0 0 0 2px rgba(219,39,119,0.5),0 0 10px rgba(219,39,119,0.18);}
 
 .picker{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:0.85rem;margin-top:0.4rem;box-shadow:var(--shadow-md);}
@@ -276,7 +276,7 @@ function ChHero({onBegin}){
 const EMPTY=Array.from({length:6},()=>({type:null,svcs:0,isPartner:false}));
 
 function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone,scrollToNext}){
-  const [selected,setSelected]=useState(1);
+  const [selected,setSelected]=useState(null);
   const [pickerType,setPickerType]=useState(null);
   const [popKey,setPop]=useState(0);
   const [showCeleb,setShowCeleb]=useState(false);
@@ -298,7 +298,7 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
     }
     if(earnings.habQ===1)return"🔥 One 3-service homeowner in the bag. Add a second this month and you activate the High Activity Bonus — £50 on each.";
     if(earnings.habQ===3)return"🔥 Three HAB customers! One more 3-service homeowner and your bonus jumps from £50 to £100 on all four. That's a £200 swing.";
-    if(filled===0)return"👆 Tap an empty slot to add your first customer. Homeowners offer the biggest upfront reward.";
+    if(filled===0)return"👆 Tap the first empty slot to add your first customer type. Homeowners offer the biggest upfront rewards.";
     if(filled===1)return"Nice start! Keep going — recurring income unlocks at 3 customers.";
     if(filled===2&&!earnings.qualifyQD)return"One more and your monthly income starts flowing. What type is your next customer?";
     if(earnings.qualifyQD&&!earnings.allFilled){
@@ -420,10 +420,14 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
         {selected!==null&&(
           <div className="picker">
 
+            <div style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:'0.5rem',alignItems:'center',marginBottom:'0.3rem'}}>
+              <p style={{fontSize:'0.8rem',fontWeight:'700',color:'var(--purple)',textAlign:'center',margin:0}}>🏠 Homeowner</p>
+              <button onClick={()=>{setSlots(EMPTY);setPickerType(null);}} style={{background:'none',border:'1px solid var(--border)',borderRadius:'0.4rem',fontSize:'0.72rem',color:'var(--text3)',padding:'0.2rem 0.5rem',cursor:'pointer',whiteSpace:'nowrap'}}>Remove all</button>
+              <p style={{fontSize:'0.8rem',fontWeight:'700',color:'var(--blue)',textAlign:'center',margin:0}}>🏢 Renting</p>
+            </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
-              {[['home','🏠 Homeowner',['s-home','t-home'],[null,'£50','£100','£250','£300']],['rent','🏢 Renting',['s-rent','t-rent'],[null,'£1.40/m','£2.50/m','£3.10/m','£3.75/m']]].map(([type,label,classes,amounts])=>(
+              {[['home',['s-home','t-home'],[null,'£50','£100','£250','£300']],['rent',['s-rent','t-rent'],[null,'£1.40/m','£2.50/m','£3.10/m','£3.75/m']]].map(([type,classes,amounts])=>(
                 <div key={type}>
-                  <p style={{fontSize:'0.8rem',fontWeight:'700',color:type==='home'?'var(--purple)':'var(--blue)',marginBottom:'0.3rem',textAlign:'center'}}>{label}</p>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.32rem'}}>
                     {[1,2,3,4].map(n=>{
                       const isSelected=sel?.type===type&&sel?.svcs===n;
@@ -603,7 +607,7 @@ function ChDuplication({earnings,scrollToNext}){
           <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
             {[
               {label:'Personal activity',sublabel:`your ${earnings.introducedCount} customer${earnings.introducedCount!==1?'s':''} × 12 months`,value:Math.ceil((earnings.total-earnings.fastStarter)*12)},
-              {label:'Supporting activity',sublabel:'from your partner\u2019s first 30 days × 12',value:Math.ceil(ch3Total*12)},
+              {label:'Supporting activity',sublabel:'from your partners\u2019 first 30 days (× 12)',value:Math.ceil(ch3Total*12)},
             ].map(({label,sublabel,value},i)=>(
               <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.55rem 0.65rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)'}}>
                 <div>
@@ -617,7 +621,7 @@ function ChDuplication({earnings,scrollToNext}){
         </div>
 
 
-        <button className="btn-next" onClick={scrollToNext}>Ready to talk? ↓</button>
+        <button className="btn-next" onClick={scrollToNext}>What are the next steps? ↓</button>
         <div style={{height:'0.75rem'}}/>
       </div>
     </div>
@@ -675,8 +679,8 @@ function ChLocked({label,hint}){
   return(
     <div className="chapter locked-ch" style={{scroll_snap_align:'start'}}>
       <div style={{fontSize:'1.8rem',marginBottom:'0.6rem'}}>🔒</div>
-      <p style={{fontFamily:'var(--font-display)',fontWeight:'600',fontSize:'1.1rem',marginBottom:'0.5rem'}}>{label}</p>
-      <p style={{fontSize:'0.88rem',color:'var(--text3)',lineHeight:1.6,maxWidth:'26ch',margin:'0 auto'}}>{hint}</p>
+      <p style={{fontFamily:'var(--font-display)',fontWeight:'700',fontSize:'1.4rem',marginBottom:'0.75rem'}}>{label}</p>
+      <p style={{fontSize:'1.05rem',color:'var(--text3)',lineHeight:1.7,maxWidth:'24ch',margin:'0 auto'}}>{hint}</p>
     </div>
   );
 }
@@ -734,8 +738,8 @@ function App(){
           ?<ChBuilder slots={slots} setSlots={setSlots} includeYou={includeYou} setIncludeYou={setIncludeYou} earnings={earnings} onCelebDone={handleCelebDone} scrollToNext={()=>goTo(2)}/>
           :<div className="chapter" style={{minHeight:'100dvh'}}/>
         }
-        {ch2on?<ChBreakdown earnings={earnings} slots={slots} scrollToNext={()=>{setCh3on(true);goTo(3);}}/>:<ChLocked label="How it adds up" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
-        {ch3on?<ChDuplication earnings={earnings} scrollToNext={()=>goTo(4)}/>:<ChLocked label="There's more to see" hint="Scroll up to the earnings tool, fill all customers and long press to upgrade one to a Partner 💎 to unlock this page."/>}
+        {ch2on?<ChBreakdown earnings={earnings} slots={slots} scrollToNext={()=>{setCh3on(true);goTo(3);}}/>:<ChLocked label="How it adds up" hint="Scroll up to fill all 5 customer slots and upgrade one to a Partner (long press) to unlock this page."/>}
+        {ch3on?<ChDuplication earnings={earnings} scrollToNext={()=>goTo(4)}/>:<ChLocked label="There's more to see" hint="Scroll up to fill all 5 customer slots and upgrade one to a Partner (long press) to unlock this page."/>}
         <ChCTA earnings={earnings}/>
       </div>
     </>
