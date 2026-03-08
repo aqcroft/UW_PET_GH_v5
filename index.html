@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,9 +100,9 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 
 .coach{font-size:1.05rem;color:var(--text);line-height:1.55;padding:0.55rem 0.8rem;border-radius:0.65rem;border-left:4px solid var(--purple);background:rgba(124,58,237,0.09);box-shadow:0 1px 8px rgba(124,58,237,0.08);transition:all 0.35s ease;display:flex;align-items:center;gap:0.7rem;}
 .coach-text{flex:1;text-align:center;}
-.coach-diamond{font-size:1.8rem;flex-shrink:0;display:flex;align-items:center;line-height:1;filter:grayscale(1) sepia(1) hue-rotate(220deg) saturate(3) brightness(0.85);}
-@keyframes diamondPulse{0%{opacity:0;transform:scale(0.8);}40%{opacity:1;transform:scale(1.2);}100%{opacity:0;transform:scale(0.8);}}
-.diamond-pulse{animation:diamondPulse 1.8s ease-in-out forwards;}
+.coach-diamond{font-size:2rem;flex-shrink:0;display:flex;align-items:center;line-height:1;filter:grayscale(1) sepia(1) hue-rotate(220deg) saturate(3) brightness(0.85);}
+@keyframes diamondPulse{0%{opacity:0;transform:scale(0.7);}45%{opacity:1;transform:scale(1.4);}100%{opacity:0;transform:scale(0.7);}}
+.diamond-pulse{animation:diamondPulse 2.4s ease-in-out forwards;}
 .hab-dot{position:absolute;top:-4px;left:-4px;background:var(--orange);color:white;font-size:0.44rem;font-weight:800;padding:0.07rem 0.22rem;border-radius:999px;font-family:var(--font-body);white-space:nowrap;}
 .residual-strip{display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.65rem;border-radius:0.55rem;background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.15);margin-top:0.32rem;font-size:1.02rem;color:var(--blue);font-weight:600;}
 
@@ -285,24 +286,26 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
   const prevTotal=useRef(0);
   const pressTimer=useRef({});
   const [pressing,setPressing]=useState(null);
+  const [pressingSvc,setPressingSvc]=useState(null);
   const [pulsingDiamond,setPulsingDiamond]=useState(null);
   const pulseDone=useRef(false);
 
   useEffect(()=>{if(earnings.total!==prevTotal.current){setPop(k=>k+1);prevTotal.current=earnings.total;}},[earnings.total]);
-  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner&&!celebDone.current){celebDone.current=true;boom();setTimeout(()=>setShowCeleb(true),2500);}},[earnings.allFilled,earnings.hasPartner]);
+  useEffect(()=>{if(earnings.allFilled&&earnings.hasPartner&&!celebDone.current){celebDone.current=true;setTimeout(()=>{boom();setShowCeleb(true);},400);}},[earnings.allFilled,earnings.hasPartner]);
+
   useEffect(()=>{
     if(earnings.allFilled&&!earnings.hasPartner&&!pulseDone.current){
       pulseDone.current=true;
-      const SLOT_DELAY=480,LOOP_PAUSE=1800,LOOPS=2,START_DELAY=1800;
+      const SLOT_DELAY=600,LOOP_PAUSE=1800,LOOPS=2,START_DELAY=1800;
       const runLoop=(loop)=>{
         if(loop>=LOOPS)return;
-        for(let i=0;i<5;i++){
+        for(let i=1;i<6;i++){
           setTimeout(()=>{
             setPulsingDiamond(i);
-            setTimeout(()=>setPulsingDiamond(null),1800);
-            if(i===4&&loop<LOOPS-1)setTimeout(()=>runLoop(loop+1),LOOP_PAUSE);
-          },i*SLOT_DELAY);
+            setTimeout(()=>setPulsingDiamond(null),2400);
+          },(i-1)*SLOT_DELAY);
         }
+        if(loop<LOOPS-1)setTimeout(()=>runLoop(loop+1),(4*SLOT_DELAY)+2400+LOOP_PAUSE);
       };
       setTimeout(()=>runLoop(0),START_DELAY);
     }
@@ -367,7 +370,16 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
       else setSelected(selected);
     },350);
   }
-
+  function setTypeAndSvcs(type,s){
+    if(selected===null)return;
+    setSlots(prev=>{const n=[...prev];n[selected]={type,svcs:s,isPartner:n[selected].isPartner||false};return n;});
+    setPickerType(null);
+    const nextEmpty=slots.findIndex((sl,i)=>i>selected&&i>0&&sl.type===null);
+    setTimeout(()=>{
+      if(nextEmpty>-1){setSelected(nextEmpty);setPickerType(null);}
+      else setSelected(selected);
+    },350);
+  }
   function clearSlot(){if(selected===null)return;setSlots(prev=>{const n=[...prev];n[selected]={type:null,svcs:0,isPartner:false};return n;});setPickerType(null);}
 
   const sel=selected!==null?slots[selected]:null;
@@ -417,10 +429,10 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
                     <span style={{fontSize:'0.74rem',fontWeight:'700',color:s.type==='home'?'var(--purple)':'var(--blue)'}}>{s.svcs} services</span>
                     {s.type==='home'&&s.svcs>0&&<span style={{fontSize:'0.74rem',fontWeight:'700',color:'var(--text2)'}}>£{cbAmount(s.svcs)}</span>}
                     {s.type==='rent'&&<span style={{fontSize:'0.86rem',color:'var(--blue)',fontWeight:'600'}}>£{tenantRate(s.svcs).toFixed(2)}</span>}
-{isP&&<span style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2.2rem',opacity:0.35,pointerEvents:'none',lineHeight:1,filter:'grayscale(1) sepia(1) hue-rotate(220deg) saturate(3) brightness(0.85)'}}>💎</span>}
-{!isP&&pulsingDiamond===i&&<span className="diamond-pulse" style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.8rem',pointerEvents:'none',lineHeight:1,filter:'grayscale(1) sepia(1) hue-rotate(220deg) saturate(3) brightness(0.85)',zIndex:10}}>💎</span>}
+                    {isP&&<span style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2.2rem',opacity:0.35,pointerEvents:'none',lineHeight:1,filter:'grayscale(1) sepia(1) hue-rotate(220deg) saturate(3) brightness(0.85)'}}>💎</span>}
                   </>
                 )}
+                {!isP&&i>0&&pulsingDiamond===i&&<span className="diamond-pulse" style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'3rem',pointerEvents:'none',lineHeight:1,filter:'grayscale(1) sepia(1) hue-rotate(175deg) saturate(4) brightness(0.9)',zIndex:10}}>💎</span>}
               </div>
             );
           })}
@@ -428,23 +440,32 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
 
         {selected!==null&&(
           <div className="picker">
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.5rem'}}>
-              <span style={{fontSize:'1.08rem',fontWeight:'700'}}>Tap a type · pick services</span>
-              {sel?.type&&<button onClick={clearSlot} style={{background:'none',border:'none',fontSize:'0.86rem',color:'var(--text3)',cursor:'pointer',textDecoration:'underline'}}>Remove</button>}
+            <div style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:'0.5rem',alignItems:'center',marginBottom:'0.3rem'}}>
+              <p style={{fontSize:'0.8rem',fontWeight:'700',color:'var(--purple)',textAlign:'center',margin:0}}>🏠 Homeowner</p>
+              <button onClick={()=>{setSlots(EMPTY);setPickerType(null);}} style={{background:'none',border:'1px solid var(--border)',borderRadius:'0.4rem',fontSize:'0.72rem',color:'var(--text3)',padding:'0.2rem 0.5rem',cursor:'pointer',whiteSpace:'nowrap'}}>Remove all</button>
+              <p style={{fontSize:'0.8rem',fontWeight:'700',color:'var(--blue)',textAlign:'center',margin:0}}>🏢 Renting</p>
             </div>
-            <div className="type-grid">
-              <button className={`type-btn${(pickerType||sel?.type)==='home'?' t-home':''}`} onClick={()=>setType('home')}>🏠 Homeowner</button>
-              <button className={`type-btn${(pickerType||sel?.type)==='rent'?' t-rent':''}`} onClick={()=>setType('rent')}>🏢 Renting</button>
-            </div>
-            <div style={{opacity:1,pointerEvents:(pickerType||sel?.type)?'auto':'none',minHeight:'5.5rem'}}>
-              <p style={{fontSize:'0.84rem',color:'var(--text3)',marginBottom:'0.3rem',fontWeight:'600'}}>'More services · more benefits · more income:'</p>
-              <div className="svc-grid">
-                {[1,2,3,4].map(n=>(
-                  <button key={n} className={`svc-btn${(()=>{const committed=sel?.svcs>0;const t=pickerType||sel?.type;if(committed&&sel.svcs===n)return t==='home'?' s-home':t==='rent'?' s-rent':'';if(!committed&&n===3)return' s-pre';return'';})()}`} onClick={()=>setSvcs(n)}>
-                    {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400',opacity:1}}>{(pickerType||sel?.type)==='rent'?['','£1.40/m','£2.50/m','£3.10/m','£3.75/m'][n]:`£${cbAmount(n)}`}</span>
-                  </button>
-                ))}
-              </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
+              {[['home',['s-home','t-home'],[null,'£50','£100','£250','£300']],['rent',['s-rent','t-rent'],[null,'£1.40/m','£2.50/m','£3.10/m','£3.75/m']]].map(([type,classes,amounts])=>(
+                <div key={type}>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.32rem'}}>
+                    {[1,2,3,4].map(n=>{
+                      const isSelected=sel?.type===type&&sel?.svcs===n;
+                      return(
+                        <button key={n}
+                          className={`svc-btn${isSelected?' '+classes[0]:' '+classes[1]}`}
+                          style={{transform:pressingSvc===type+n?'scale(0.88)':'',transition:'transform 0.1s'}}
+                          onMouseDown={()=>setPressingSvc(type+n)} onMouseUp={()=>setPressingSvc(null)}
+                          onMouseLeave={()=>setPressingSvc(null)} onTouchStart={()=>setPressingSvc(type+n)}
+                          onTouchEnd={()=>setPressingSvc(null)}
+                          onClick={()=>setTypeAndSvcs(type,n)}>
+                          {n}<br/><span style={{fontSize:'0.78rem',fontWeight:'400'}}>{amounts[n]}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -458,13 +479,13 @@ function ChBuilder({slots,setSlots,includeYou,setIncludeYou,earnings,onCelebDone
         {earnings.allFilled&&(
           <div className="coach" style={{marginTop:'0.35rem',borderLeftColor:earnings.hasPartner?'var(--pink)':'var(--purple)',background:earnings.hasPartner?'rgba(219,39,119,0.08)':'rgba(124,58,237,0.09)'}}>
             {earnings.hasPartner?(
-              <div style={{textAlign:'center'}}>
+              <div style={{textAlign:'center',width:'100%'}}>
                 <p style={{fontSize:'1.2rem',fontWeight:'800',color:'var(--pink)',lineHeight:1.4}}>💎 Partner upgraded!</p>
                 <p style={{fontSize:'1.05rem',fontWeight:'700',color:'var(--pink)',lineHeight:1.4}}>£500 Fast Start bonus unlocked!</p>
                 <button className="btn-next" style={{marginTop:'0.5rem'}} onClick={scrollToNext}>See how it all adds up ↓</button>
               </div>
             ):(
-              <span><strong>Long press</strong> any customer to upgrade them to a Partner 💎</span>
+              <span className="coach-text"><strong>Long press</strong> any customer to upgrade them to a Partner 💎</span>
             )}
           </div>
         )}
@@ -595,7 +616,7 @@ function ChDuplication({earnings,scrollToNext}){
           <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
             {[
               {label:'Personal activity',sublabel:`your ${earnings.introducedCount} customer${earnings.introducedCount!==1?'s':''} × 12 months`,value:Math.ceil((earnings.total-earnings.fastStarter)*12)},
-              {label:'Supporting activity',sublabel:'from your partners\u2019 first 30 days (\u00d7 12)',value:Math.ceil(ch3Total*12)},
+              {label:'Supporting activity',sublabel:'from your partners\u2019 first 30 days (× 12)',value:Math.ceil(ch3Total*12)},
             ].map(({label,sublabel,value},i)=>(
               <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.55rem 0.65rem',borderRadius:'0.6rem',background:'var(--surface)',border:'1px solid var(--border)'}}>
                 <div>
